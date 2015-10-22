@@ -26,9 +26,10 @@ var Model = require('./models/model');
 var Part = require('./models/part');
 var Contact = require('./models/contact');
 
-
+//use the fs module and make the file a huge array 
 var fs = require('fs');
 var contents = fs.readFileSync('test.txt').toString();
+//each line is another record, so we split on each line
 var lines = contents.split('\n');
 console.log(lines.length);
 

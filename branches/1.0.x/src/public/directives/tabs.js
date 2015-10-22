@@ -10,30 +10,30 @@ app.directive('tabs', function () {
 		transclude: true,
 		scope: {},
 		controller: function ($scope, $element, $rootScope, RecordService) {
-
+			//init our array of panes
 			var panes = $scope.panes = [];
-
+			//make the current pane selected and all else unselected
 			$scope.MakeActive = function (pane) {
 				angular.forEach(panes, function (pane) {
 					pane.Selected = false;
 				});
 				pane.Selected = true;
 			}
-
+			//when a tab is closed, make the last tab selected
 			$scope.$on('MakeLastTabActive', function (event) {
 				angular.forEach(panes, function (pane) {
 					pane.Selected = false;
 				});
 				panes[panes.length-1].Selected = true;
 			});
-
+			//take off the close 'X' button from the last tab which is the 'New Tab' 
 			$scope.AddCloseButton = function () {
 				angular.forEach(panes, function (pane) {
 					pane.CloseButton = true;
 				});
 				panes[panes.length-1].CloseButton = false;
 			}
-
+			//add a new pane to our array
 			this.AddPane = function (pane) {
 				if(panes.length === 0) {
 					$scope.MakeActive(pane);
@@ -47,17 +47,22 @@ app.directive('tabs', function () {
 		            pane.Selected = false;
 		        });
 		    }
-
+		    //select a tab
 			$scope.Select = function (index, pane) {
-				var recordsArray = RecordService.GetRecordsArray();
+				//var recordsArray = RecordService.GetRecordsArray();
 				if(pane.title === "New Tab") {
 					if(panes.length === 6) { return alert("You have reached the max amount of tabs."); }
+					//emit event to record ctrl to save a virtual copy of the current tab
 					$scope.$emit('SaveCurrentRecord');
+					//add a new tab
 					$scope.$emit('AddTab', index);
+					//init new record
 					$scope.$emit('NewRecord', index);
 					$scope.MakeActive(pane);
 				}else {
+					//save the current tab
 					$scope.$emit('SaveCurrentRecord');
+					//get the virtual copy of the new selected tab
 					$scope.$emit('ShowSelectedRecord', index);
 					$scope.MakeActive(pane);
 				}

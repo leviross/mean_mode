@@ -6,7 +6,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 exports.postContact = function (req, res){
 	console.log("REQ.BODY: ", req.body);
-	
+	//MongoDB does not support sequential ID's so you have to create a new document and update its value
+	//then save that as our id
 	function GenNextId (whocares) {
 		var query = { _id: whocares };
 		var update = { $inc: { seq: 1} };
@@ -23,7 +24,7 @@ exports.postContact = function (req, res){
 	    	}
 
 			var c = new Contact();
-		    c._id = doc.seq,
+		    c._id = doc.seq, //save updated counter document as our id 
 			c.Address = req.body.Address;
 			c.Address2 = req.body.Address2;
 			c.City = req.body.City;
@@ -57,7 +58,6 @@ exports.postContact = function (req, res){
 }
 
 var isValidPassword = function (contact, password) {
-	//console.log(contact, password);
 	return Bcrypt.compareSync(password, contact.Password);
 }
 

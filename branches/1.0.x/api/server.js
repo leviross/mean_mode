@@ -33,12 +33,12 @@ var districtCtrl = require('./controllers/district');
 router.route('/contacts')
 	.post(contactCtrl.postContact)
 	.get(contactCtrl.getContacts);
-
+//get single contact or update or delete
 router.route('/contacts/:id')
 	.get(contactCtrl.getContactById)
 	.put(contactCtrl.putContact)
 	.delete(contactCtrl.deleteContact);
-
+//these following routes are for search input fields 
 router.route('/contacts/firstname/:FirstName')
     .get(contactCtrl.getContactByFirstName);
 
@@ -60,30 +60,30 @@ router.route('/contacts/anyfield/:AnyField')
 router.route('/contacts/types/:Type')
 	.get(contactCtrl.getContactByType);    
 
-//users    
+//users get all or create   
 router.route('/users')
 	.get(userCtrl.getUsers)
 	.post(userCtrl.postUser);
-	
+//update user via their email	
 router.route('/users/:email')
 	.put(userCtrl.updateUser);	
-	
+//get single or delete	
 router.route('/users/:id')
 	.get(userCtrl.getUser)
 	.delete(userCtrl.deleteUser);
 
-//records
+//records - create
 router.route('/records')
 	.post(recordCtrl.postRecord);
-
+//district order creation
 router.route('/records/district-order')
 	.post(recordCtrl.postNewDistrictOrder);	
-
+//single record, get update or delete
 router.route('/records/:id')
 	.get(recordCtrl.getRecord)
 	.put(recordCtrl.putRecord)
 	.delete(recordCtrl.deleteRecord);	
-
+//these routes pull records by a certain criteria 
 router.route('/records/workorderno/:id')
 	.get(recordCtrl.getRecordByWorkNo);	
 

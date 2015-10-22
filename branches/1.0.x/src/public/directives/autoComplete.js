@@ -5,7 +5,9 @@ app.directive('autoComplete', ['ContactService', 'Globals', '$location', '$rootS
 			elem.autocomplete({
 				minLength: 3,
 				source: function (searchTerm, response) {
+						//call the contact service GetContactByAnyField method
 						ContactService.GetContactByAnyField(searchTerm.term, function (retval) {
+							//massage the response array by looping through it and creating custom labels 
 							response($.map(retval, function (contact) {
 								//console.log("Individual Obj:",contact);
 
@@ -44,10 +46,13 @@ app.directive('autoComplete', ['ContactService', 'Globals', '$location', '$rootS
 					event.preventDefault();
 				},
 				select: function (event, selectedItem) {
+					//create new record
 					Globals.SetRecordId(0);
 					//$rootScope.$broadcast("NewRecord");
 					$location.path('/records');
+					//since we are in an external library, we call apply()
 					scope.$apply();
+					//let the new record initialize, then add this contact object to it
 					$timeout(function () {
 						$rootScope.$broadcast("ContactSelected", selectedItem.item.value);
 					}, 700);
