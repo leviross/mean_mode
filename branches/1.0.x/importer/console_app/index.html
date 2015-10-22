@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+
+</head>
+<body>
+
+	<input type="file" name="file" id="file"><br /><br />
+	<input type="file" name="file2" id="file2">
+
+
+
+<script type="text/javascript">
+
+	//RELATED TABLE EXPORTS - 
+	//PARTS_SERVICE - Seem to be easy to work with. Each part has the Job # at beg of line. So we can search for that Job # and add it to that record. 
+	//RELATED RECORDS - Seems to be weird. It starts with a Job # at beg of line, then has the related child record. BUT, 
+	//its child record is exactly 600 less than the actual Job # in FM!!!! So, I guess we can add 600 to find the correct Job # then save them in the ParentId field and stuff...
+	//ALSO - When the Record # corresponds to the line # on the file, but doesnt match the Job # or the child Job #, weird. 
+	//Browser may crash if I load the entire large file. I may have to break down the file to smaller chunks. 
+	//BIG POINT-We need to know if this is an HP warranty job, to get a kick back or just get paid from HP. WE need the data to make our reports!!!
+	//for requester, store the name, not the #. 
+	//for serial #. we have to add a new col for new serial #. cuz sometimes they swap the whole part of comp out and 
+	//have a totally new serial #. 
+	//action section should be dropdown of 'collect money' 'warranty'
+	
+
+	document.getElementById('file').onchange = function() {
+
+		var file = this.files[0];
+		//first file obj in default array from the input tag with id of 'file'
+		//console.log(file);
+
+		var reader = new FileReader();
+		reader.onload = function(progressEvent) {
+		    // Entire file
+		    //console.log(this);
+		    var lines = this.result.split('\n');
+		   
+		    //testing on 9918 lines that i copied
+		    for(var line = 0; line < 1; line++) {
+		    	//console.log(lines.length);
+		    	
+
+		    	var eachLine = lines[line].replace('","', '"",""');
+		    	eachLine = eachLine.replace(/\v/g, '\n'); //replaced all VT's with a line break, seems to hold proper format. 
+		    	eachLine = eachLine.replace(/\u001d/g, '');//replace all GS's with empty string, gets rid of all them
+		    	//console.log(eachLine);
+
+		    	var eachLineArr = eachLine.split('","');
+		    	
+		    	//this prints with quotes, because there is an extra pair of quotes on these elements in the array, they werent split, so they still have extra quotes. i strip them down, then save again and the array auto puts 
+		    	//back on quotes.
+		    	//console.log(eachLineArr[0]);
+		    	var first = eachLineArr[0];
+		    	first = first.replace(/"/g,"");
+		    	eachLineArr[0] = first;
+		    	//console.log(first);
+
+		    	//no clue when on the 2nd element, it wasnt taking off the 2nd pair of quotes on line 37...
+		    	var second = eachLineArr[1];
+		    	second = second.replace(/"/g,"");
+		    	//console.log(second);
+		    	eachLineArr[1] = second;
+
+		    	var fortyeighth = eachLineArr[48];
+		    	fortyeighth = fortyeighth.replace(/"/g, "");
+		    	//console.log(fortyeighth);
+		    	eachLineArr[48] = fortyeighth;
+
+		    	//final printing of array looks perfect. 
+		    	//console.log(eachLineArr);
+
+		    	if(eachLineArr[15] != "") {
+		    		var wasCompleted = true;
+		    		var wasPaid = true;
+		    	}else {
+		    		var wasCompleted = false;
+		    		var wasPaid = false;
+		    	}
+		    	if(eachLineArr[13] == null || "") {
+		    		var isBackedUp = "0";
+		    	}else {
+		    		var isBackedUp = "1";
+		    	}
+		    	if(eachLineArr[10] == "") {
+		    		var isCompany = false;
+		    	}else {
+		    		var isCompany = true;
+		    	}
+
+		    	var DateAndTimeReceived = eachLineArr[16] + " " + eachLineArr[43];
+
+				//Save each line as object with our Schema
+				var OurSchemaObj = {
+					JobId: eachLineArr[19],
+	                Paid: wasPaid, 
+	                Type: eachLineArr[31], //31 is type and 32 is typetext, maybe combine the two??
+	                IsComplete: wasCompleted, 
+	                Requester: eachLineArr[33],
+	                WorkOrderNo: eachLineArr[47],
+	                ServicePlan: eachLineArr[37], 
+	                ServicePlanExp: eachLineArr[35],
+	                Problem: eachLineArr[30],
+	                PO: eachLineArr[36],
+	                CompleteInfo: {
+	                    ActionNotes: eachLineArr[1],
+	                    RepairedBy: eachLineArr[11],  //this should correspond to 'CompletedBy' ???
+	                    ClaimNo: eachLineArr[8],
+	                    Date: eachLineArr[7],
+	                    Warranty: eachLineArr[44]
+	                },
+	                Contact: {
+	                    Company: eachLineArr[10],
+	                    _id: eachLineArr[12],
+	                    IsCompany: isCompany, //figure this out
+	                    NameFirst: eachLineArr[23],
+	                    NameLast: eachLineArr[24],
+	                    Address: eachLineArr[2],
+	                    Address2: eachLineArr[3],
+	                    City: eachLineArr[6],
+	                    State: eachLineArr[40],
+	                    Zip: eachLineArr[48],
+	                    Phone1: eachLineArr[26],
+	                    Phone2: eachLineArr[28],
+	                    Email: eachLineArr[17]
+	                },
+	                Assets: [{ 
+	                	Brand: eachLineArr[5],
+	                	Model: eachLineArr[21],
+	                	PartNo: eachLineArr[22], 
+	                	SerialNo: eachLineArr[34],
+	                	AssetTag: eachLineArr[4],
+	                	SerialInvalid: false //figure out what this corresponds to
+	                }, {
+	                	Brand: "",
+	                	Model: "Accessories:",
+	                	PartNo: eachLineArr[0], 
+	                	SerialNo: "",
+	                	AssetTag: "",
+	                	SerialInvalid: false //figure out what this corresponds to
+	                }],
+	                Parts: [], // the parts array is going to be done from a 2nd export file
+	                Backup: isBackedUp,
+	                BackupText: eachLineArr[14],
+	                DateCreated: DateAndTimeReceived 
+	                //also have a lot of fields from FM that we arent saving so far, totals, lots of stuff. 
+	                //check out what they are and where to save them.
+	                //For example: DateCompleted. Where should we put that on our Schema??
+				}
+
+				//Question: How is the current JobNumber going to be saved as a sequential _id in our DB??
+				//Browser doesnt crash, its efficient. 
+				//1-Maybe send an array of records. Beware of the browser crashing possibly. 
+				//2-Get the mongoose connection and bring it here instead of an ajax call. 
+				//Bring in models from our main app and 
+				$.ajax({
+					method: 'POST',
+					url: 'http://localhost:4000/api/records',
+					data: OurSchemaObj
+				})
+				.done(function(retval) {
+					console.log("New Saved Record:", retval);
+				});
+
+
+		    	
+		    }
+		};
+		reader.readAsText(file);
+	};
+
+
+	document.getElementById('file2').onchange = function() {
+
+		var file = this.files[0];
+		//first file obj in default array from the input tag with id of 'file'
+		//console.log(file);
+
+		var reader = new FileReader();
+		reader.onload = function(progressEvent){
+		    // Entire file
+		    //console.log(this);
+		    var lines = this.result.split('\n');
+
+		    for(var line = 0; line < 1; line++){
+		    	
+		    	var eachLine = lines[line].replace(/"/g, "");
+		    	eachLine = eachLine.replace(/\v/g, "");
+		    	var eachLineArr = eachLine.split(',');
+		    	console.log(eachLineArr);
+		    
+		    	if(eachLineArr[9] == "") {
+		    		var Hide = false;
+		    	}else {
+		    		var Hide = true;
+		    	}
+		    	if(eachLineArr[10] == "") {
+		    		var Esc = false;
+		    	}else {
+		    		var Esc = true;
+		    	}
+
+		    	var Parts = [];
+				//Save each line as object with our Schema
+				var Part = {
+					Type: "service",
+					Hide: Hide,
+					OrderNo: eachLineArr[1],
+					OrderType: eachLineArr[11],
+					OrderedOn: eachLineArr[8],
+					OrderedBy: eachLineArr[12],
+					Qty: eachLineArr[2],
+					PartNo: eachLineArr[3],
+					Desc: eachLineArr[4],
+					Cost: eachLineArr[5],
+					Price: eachLineArr[6],
+					ShippingCost: eachLineArr[7],
+					EscalationNo: eachLineArr[10],
+					Esc: Esc,
+					ShippingInfo: {
+						SentBy: "",
+						SentOn: "",
+						TrackingNo: eachLineArr[15]
+					},
+					ReceivingInfo: {
+						ReceivedBy: eachLineArr[13],
+						ReceivedOn: eachLineArr[14]
+					}
+				}
+				Parts.push(Part);
+
+				$.ajax({
+					method: 'PUT',
+					url: 'http://localhost:4000/api/jobs/' + eachLineArr[0],
+					data: Parts
+				})
+				.done(function(retval) {
+					console.log("New Updated Record:", retval);
+				});
+
+
+
+
+		    	
+		    }
+		};
+		reader.readAsText(file);
+	};
+
+	// var Part = {
+	// 	            "Type": "service",
+	// 	            "Hide": false,
+	// 	            "OrderNo": "",
+	// 	            "OrderType": "0",
+	// 	            "OrderedBy": "Rune F",
+	// 	            "OrderedOn": new Date().toLocaleString(),
+	// 	            "Qty": null,
+	// 	            "PartNo": "",
+	// 	            "Desc": "",
+	// 	            "Cost": null,
+	// 	            "Price": null,
+	// 	            "ShippingCost": null,
+	// 	            "Esc": false,
+	// 	            "EscalationNo": null,
+	// 	            "ShippingInfo": {
+	// 	                "SentBy": "",
+	// 	                "SentOn": new Date().toLocaleString(),
+	// 	                "TrackingNo": ""
+	// 	            },
+	// 	            "ReceivingInfo": {
+	// 	                "ReceivedBy": "",
+	// 	                "ReceivedOn": ""
+	// 	            }
+	// 	        }
+
+</script>
+
+</body>
+</html>

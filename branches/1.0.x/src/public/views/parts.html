@@ -1,0 +1,145 @@
+<div class="container">
+	<div class="row">
+	<br />
+	<br />
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-body" style="padding: 12px 10px;">
+
+			 		<h4 ng-show="Section == 3" class="admin-tab">Add Model for: {{Brand.name}}</h4> 
+			 		<h4 ng-show="Section == 2" class="admin-tab">Select Brand</h4> 
+
+					<div class="row" ng-show="Section == 1">
+						<div class="col-md-4">
+							<a href="" ng-click="ShowPartIdInput()" ng-show="!PartIdSearch">Part ID Lookup</a>
+							<form ng-submit="SearchPartById()" ng-show="PartIdSearch">
+								<input ng-model="PartId" placeholder="Part Id" class="form-control" />
+							</form>	
+						</div>
+						<div class="col-md-4 text-center">
+							<h4>Models / Parts</h4>
+						</div>	
+						<div class="col-md-2 col-md-offset-2"> 	
+							<button class="btn btn-primary" ng-click="Update()" ng-disabled="PartsForm.$pristine">Save</button>
+						</div>	
+					</div>
+					
+					<br />
+
+					<div ng-show="Section == 1">
+					<form name="PartsForm">	
+						<div class="row">
+							<div class="col-md-4">
+							<label class="control-label">Brand</label>
+								<input  ng-model="Brand" class="form-control" readonly />
+							</div>
+							<div class="col-md-4">
+								<label class="control-label">Model #</label>
+								<input  ng-model="ModelNo" placeholder="Search for Model No's" class="form-control" auto-model-no />
+							</div>
+							<div class="col-md-4">
+								<label class="control-label">Model Name</label>
+								<input  ng-model="ModelName" class="form-control" />
+							</div>
+						</div><br />
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Part #</label>
+								<!-- Used to have a nested form here like Desc below, but it wasnt working, so I made a quick directive -->
+								<input ng-model="PartNo" placeholder="Search for Part No's" class="form-control" ng-part-no />
+							</div>
+							<div class="col-md-5">
+								<label class="control-label">Part Desc</label>
+								<input ng-model="PartDesc" placeholder="Search for Part Descriptions" class="form-control" ng-part-desc />
+							</div>
+							<div class="col-md-2">
+								<label class="control-label">Cost</label>
+								<input ng-model="PartCost" class="form-control" />
+							</div>
+							<div class="col-md-2">
+								<label class="control-label">Price</label>
+								<input ng-model="PartPrice" class="form-control" />
+							</div>
+						</div><br />
+						<div class="row">
+							<div class="col-md-3">
+								<button class="btn btn-warning" ng-click="AddModel()"><span class="glyphicon glyphicon-plus"></span> Add Model</button>
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-success" ng-click="AddPart()"><span class="glyphicon glyphicon-plus"></span> Add Part</button>
+							</div>
+							<div class="col-md-3" ng-show="HaveModelNo">
+								<button class="btn btn-danger" ng-click="DeleteModel()"><span class="glyphicon glyphicon-trash"></span> Delete Model</button>
+							</div>
+							<div class="col-md-3" ng-show="HavePartNo">
+								<button class="btn btn-danger" ng-click="DeletePart()"><span class="glyphicon glyphicon-trash"></span> Delete Part</button>
+							</div>
+						</div>
+						
+						<br />
+						<div ng-class=" PartsList.length > 12 ? 'scroll' : 'no-scroll' ">
+							<table class="table-striped list-view">
+								<thead>
+				                    <tr>
+				                        <th style="width: 30%;">Part #</th>
+				                        <th style="width: 45%;">Desc</th>
+				                        <th style="width: 10%;">Cost</th>
+				                        <th style="width: 10%">Price</th>
+				                        <th style="width: 5%;"></th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+				                    <tr ng-repeat="part in PartsList" ng-click="SelectPart($index)">
+				                        <td><h6>{{part.No}}</h6></td>
+				                        <td><h6>{{part.Desc}}</h6></td>
+				                        <td><h6>{{part.Cost}}</h6></td>
+				                        <td><h6>{{part.Price}}</h6></td>
+				                        <td style="padding-left: 8px;">
+				                        	<button type="button" class="btn btn-danger btn-sm" ng-click="DeleteArrayPart(part._id, $index)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+				                        </td>
+				                    </tr>
+				                </tbody>
+							</table>
+						</div>	
+					</form>	
+					</div>
+
+					<div ng-show="Section == 2">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<select  ng-model="Brand" class="form-control" ng-options="b.name for b in Brands" ng-change="SelectBrand()"></select>
+							</div>
+						</div>	
+						<div class="row" style="display: none;">
+							<div class="col-md-2">
+								<button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Brand</button>
+							</div>
+						</div>
+					</div>
+
+					<div ng-show="Section == 3">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="control-label">Model Name</label>
+								<input  ng-model="ModelName" class="form-control" placeholder="Model Name" />
+							</div>	
+							<div class="col-md-6">
+								<label class="control-label">Model #</label>
+								<input  ng-model="ModelNo" class="form-control" placeholder="Model #" />
+							</div>	
+						</div><br />
+						<div class="row">
+							<div class="col-md-1 col-md-offset-9">
+								<button class="btn btn-default" ng-click="BackToParts()">Cancel</button>
+							</div>
+							<div class="col-md-2">	
+								<button class="btn btn-primary" ng-click="CreateModel()" ng-disabled="ModelName == '' || ModelNo == ''">Create</button>
+							</div>
+						</div>	
+					</div>	
+
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>

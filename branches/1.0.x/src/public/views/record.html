@@ -1,0 +1,484 @@
+<div role="tabpanel">
+
+    <div>
+        <div tabs>
+            <div ng-repeat="tabInfo in TabManager.TabItems" pane title="{{ tabInfo.title | limit:15 }}">
+            </div>
+        </div>
+    </div>
+           
+    <div class="tab-content" id="tabpanels">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div style="padding: 10px 10px 10px 10px">
+                <form name="RecordForm" class="form-horizontal" novalidate>
+
+                    <div class="panel panel-default" ng-show="ShowSection >= 1">
+                        <div class="panel-body">
+                            <div class="col-md-12">
+
+                                    <div class="col-md-6">
+
+                                        <div class="row" style="margin-bottom:4px">
+                                            <label class="col-md-1 control-label">Comp</label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" placeholder="Company" ng-model="Record.Contact.Company" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">Id</label>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" ng-model="Record.Contact._id" readonly />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-info" ng-click="FindContact()"><span class="glyphicon glyphicon-search"></span></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-bottom:4px">
+                                            <label class="col-md-1 control-label">First</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" placeholder="First Name" ng-model="Record.Contact.NameFirst" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">Last</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" placeholder="Last Name" ng-model="Record.Contact.NameLast" readonly />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <label class="col-md-1 control-label">Email</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" placeholder="Email" ng-model="Record.Contact.Email" readonly />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-warning"><span class="glyphicon glyphicon-envelope"></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="row" style="margin-bottom:4px">
+                                            <label class="col-md-1 control-label">Addr</label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" placeholder="Address 1" ng-model="Record.Contact.Address" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">Room</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" placeholder="Room No" ng-model="Record.Contact.Address2" readonly />
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-bottom:4px">
+                                            <label class="col-md-1 control-label">City</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="City" ng-model="Record.Contact.City" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">State</label>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" placeholder="State" ng-model="Record.Contact.State" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">Zip</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" placeholder="Zip" ng-model="Record.Contact.Zip" readonly />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label class="col-md-1 control-label">Ph1</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" placeholder="Phone 1" ng-model="Record.Contact.Phone1" readonly />
+                                            </div>
+                                            <label class="col-md-1 control-label">Ph2</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" placeholder="Phone 2" ng-model="Record.Contact.Phone2" readonly />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <button style="margin-top: 13px;" ng-show="ShowSection == 7" type="button" class="btn btn-info" ng-click="SecondSection()">Next <span class="glyphicon glyphicon-chevron-down"></span></button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div> <!-- end of customer info -->
+
+                    <div class="panel panel-default" ng-show="ShowSection >= 1">
+                        <div class="panel-body">
+
+                            <div class="form-group col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Type</label>
+                                    <select ng-model="Record.Type" ng-options="t.value as t.name for t in RepairTypes" class="form-control" ></select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Requester</label>
+                                    <select ng-model="Record.Requester" ng-options="u.Name for u in Users" class="form-control" ></select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Claim #</label>
+                                    <input  ng-model="Record.ClaimNo" type="text" class="form-control" />
+                                </div>    
+                                <div class="col-md-2">
+                                    <label class="control-label">Created</label>
+                                    <input ng-model="Record.DateCreated" type="text" class="form-control" readonly />
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="control-label">Tax Rate</label>
+                                    <input style="display: inline-block;" class="form-control" type="text" ng-model="TaxRate" ng-change="ChangeTaxRate()"  />
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">WO#</label>
+                                    <input  ng-model="Record.WorkOrderNo" type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-1 text-center" ng-hide="SearchMode" style="margin-top: 10px;">
+                                    <button type="button" class="btn btn-primary" ng-disabled="RecordForm.$invalid || RecordForm.$pristine" ng-click="CreateNewRecord()">Create</button>
+                                    <button type="button" class="btn btn-danger" ng-disabled="RecordForm.$pristine" ng-click="DiscardRecord()"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <div class="col-md-1 text-center" ng-show="SearchMode" style="margin-top: 10px;">
+                                    <button type="button" class="btn btn-primary" ng-disabled="RecordForm.$pristine" ng-click="UpdateRecord()">Update</button>
+                                    <button type="button" class="btn btn-danger" ng-disabled="RecordForm.$pristine" ng-click="DiscardUpdate()"><span class="glyphicon glyphicon-erase"></span></button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="text-center">
+                                    <button ng-show="ShowSection == 1" type="button" class="btn btn-info" ng-click="FirstSection()">Next <span class="glyphicon glyphicon-chevron-down"></span></button>
+                                </div>
+                            </div>    
+                        </div>
+                    </div> <!-- end WO, Claim No, Type panel -->
+
+                    <div class="panel panel-default" ng-show="ShowSection >= 2">
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <label class="col-md-1 control-label">SrvPlan</label>
+                                        <div class="col-md-5">
+                                            <select class="form-control" ng-model="Record.ServicePlan"  ng-change="OutOfWarranty()">
+                                                <option value="0">Out of Warranty</option>
+                                                <option value="1">Manufacturer Warranty</option>
+                                                <option value="2">MicroK12 90 Day Warranty</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">Exp.</label>
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control" ng-model="Record.ServicePlanExp" my-date-picker />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-md-1 control-label">Problem</label>
+                                        <div class="col-md-11">
+                                            <textarea class="form-control" style="margin-top:4px" rows="4" placeholder="What is the problem?" ng-model="Record.Problem"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <label class="col-md-1 control-label">Backup</label>
+                                        <div class="col-md-5">
+                                            <select class="form-control" ng-model="Record.Backup" >
+                                                <option value="0" selected>No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label">PO#</label>
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control" placeholder="PO #" ng-model="Record.PO" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" style="margin-top:4px" rows="2" ng-disabled="Record.Backup == '0'" placeholder="Backup Instructions" ng-minlength="15" ng-model="Record.BackupText"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 9px;">
+                                        <div class="col-md-4">
+                                           <button type="button" class="btn btn-success" ng-hide="Record.IsComplete" ng-click="YouCompleteMe()" ng-disabled="!Record._id">Complete Record</button>
+                                           <button style="border-color: #999966;" type="button" class="btn btn-default" ng-show="Record.IsComplete" ng-click="UnCompleteMe()">UnComplete Record</button>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Payment</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-control" ng-model="Record.PaymentType" >
+                                                        <option value="Collect Money">Collect Money</option>
+                                                        <option value="Warranty" selected>Warranty</option>
+                                                        <option value="N/A">N/A</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center">
+                                    <button style="margin-top: 13px;" ng-show="ShowSection == 2" type="button" class="btn btn-info" ng-click="ThirdSection()">Next <span class="glyphicon glyphicon-chevron-down"></span></button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div> <!-- end of Backup and PO and PaymentType section -->
+                    <div class="panel panel-default" ng-show="ShowSection >= 3">
+                        <div class="panel-body">
+                            <div class="well col-md-12">
+
+                                <div class="row table-responsive">
+                                    <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Brand</th>
+                                                <th width="20%">Model#</th>
+                                                <th width="20%">Model Name</th>
+                                                <th width="20%">Serial No.</th>
+                                                <th width="20%">Asset Tag</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="ass in Record.Assets">
+                                            <td>
+                                                <select class="form-control" ng-model="ass.Brand" ng-options="b.name as b.name for b in Brands"  ng-change="GetBrand($index)">
+                                                </select>
+                                            </td>
+                                            <td><input type="text"  class="form-control" ng-model="ass.ModelNo" auto-model-no /></td>
+                                            <td><input type="text"  class="form-control" ng-model="ass.ModelName" /></td>
+                                            <td><input type="text"  class="form-control" ng-blur="LookupSerial(ass)" ng-model="ass.SerialNo" auto-serial-no /></td>
+                                            <td><input type="text"  class="form-control" ng-model="ass.AssetTag" auto-tag-no /></td>
+                                            <td><button type="button"  class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="RemoveAsset(ass)"></span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                <button type="button" class="btn btn-info" ng-click="AddAsset()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Asset</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div><!-- end of Asset section-->
+
+                    <div class="panel panel-default" ng-show="ShowSection >= 3">
+                        <div class="panel-body">
+                            <div class="well col-md-12">
+                                    <div class="row table-responsive">
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:20px">Type</th>
+                                                    <th>Order No.</th>
+                                                    <th style="width:20px">Qty</th>
+                                                    <th>Part No.</th>
+                                                    <th>Description</th>
+                                                    <th>Invoice No.</th>
+                                                    <th style="width:60px" class="text-center">Cost</th>
+                                                    <th style="width:60px" class="text-center">Shipping</th>
+                                                    <th style="width:60px" class="text-center">Price</th>
+                                                    <th style="width:60px" class="text-center">Ordered</th>
+                                                    <th style="width:40px" class="text-center">Tr#</th>
+                                                    <th style="width:40px" class="text-center">Hide</th>
+                                                    <th style="width:40px" class="text-center">Esc</th>
+                                                    <th style="width:80px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tr ng-repeat="part in Record.Parts">
+                                                <td>
+                                                    <button type="button" class="btn btn-active" data-toggle="tooltip" data-placement="right" title="{{part.ItemType}}">
+                                                        <span ng-show="part.ItemType == 'service'" class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                                        <span ng-show="part.ItemType == 'retail'" class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                                                        <span ng-show="part.ItemType == 'labor'" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                                    </button>
+                                                </td>
+                                                <td>{{ part.OrderNo }}</td>
+                                                <td>{{ part.Qty }}</td>
+                                                <td>{{ part.PartNo }}</td>
+                                                <td>{{ part.Desc }}</td>
+                                                <td>{{ part.InvoiceNo }}</td>
+                                                <td class="text-center">{{ part.Cost }}</td>
+                                                <td class="text-center">{{ part.ShippingCost }}</td>
+                                                <td class="text-center">{{ part.Price }}</td>
+                                                <td class="text-center"><div>{{ part.OrderedOn }}</div></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-default" ng-click="PartReceived($index)" ng-show="part.ItemType == 'service' && !part.Received">
+                                                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-success" ng-click="GetTrackingNo(part)" ng-show="part.ItemType == 'service' && part.Received && part.ShippingInfo.TrackingNo == ''">
+                                                        <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-info" ng-show="part.ShippingInfo.TrackingNo != ''">   
+                                                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                                    </button>
+                                                </td>
+                                                <td class="text-center"><input type="checkbox" ng-click="Hide(part)" ng-model="part.Hide" ng-show="part.ItemType == 'service'" /></td>
+                                                <td class="text-center"><input type="checkbox" ng-model="part.Esc" ng-show="part.ItemType == 'service'" /></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="EditPart(part)"></span></button>
+                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="RemovePart(part)"></span></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="14">
+                                                    <button type="button" class="btn btn-info" ng-click="AddPart()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Part or Labor</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div> <!-- end of parts info -->
+
+                    <div ng-hide="Record.PaymentType != 'Collect Money' && !Record.IsComplete" class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div ng-show="Record.IsComplete == true">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-md-1 control-label">Action</label>
+                                                            <div class="col-md-11">
+                                                                <textarea class="form-control" style="margin-top:4px" rows="2" ng-model="Record.CompleteInfo.ActionNotes"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top:8px">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 control-label">Rep</label>
+                                                                <div class="col-md-10">
+                                                                    <select class="form-control"  ng-model="Record.CompleteInfo.RepairedBy">  
+                                                                        <option value="0">Topher</option>
+                                                                        <option value="1">David</option>
+                                                                        <option value="2">Roy</option>
+                                                                        <option value="3">Jackson</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label class="col-md-2 control-label">Date</label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" placeholder="Repair Date" ng-model="Record.CompleteInfo.Date">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="btn" ng-class="(Record.Paid == true) ? 'btn-success' : 'btn-default'"><span class="glyphicon glyphicon-ok"></span> Complete</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" ng-hide="Record.PaymentType == 'Warranty' || Record.PaymentType == 'N/A'">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">Parts</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" ng-model="Totals.Parts">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">Labor</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" ng-model="Totals.Labor">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">Shipping</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" ng-model="Totals.Shipping">
+                                                    </div>
+                                                </div>
+                                            </div>        
+
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">SubTotal</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" ng-model="Totals.SubTotal">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">Tax</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" ng-model="Totals.Tax">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-md-4 control-label">Total</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" style="background-color: #DAB0B0; color: black; font-weight:bold;" ng-model="Totals.Total">
+                                                    </div>
+                                                    <!-- <div class="col-md-2 btn" ng-class="(Record.Paid == true) ? 'btn-success' : 'btn-default'"><span class="glyphicon glyphicon-ok"></span></div> -->
+                                                </div>
+                                            </div>    
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div> <!-- end of complete/total -->
+
+                    <div class="panel panel-default" ng-show="ShowSection >= 3">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 13%;">Date</th>
+                                                <th style="width: 13%;">Technician</th>
+                                                <th style="width: 13%;">DateModified</th>
+                                                <th style="width: 61%;">Note</th>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="note in Record.TechNotes | orderBy:'-Date' | limitTo:NoteLimit">
+                                            <td ng-model="note.Date">{{note.Date}}</td>
+                                            <td ng-model="note.Tech"></td>
+                                            <td ng-model="note.DateModified">{{note.DateModified}}</td>
+                                            <td>{{note.Note}}</td>
+                                            <td><button class="btn btn-warning" ng-click="EditNote(note.Note, $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="14">
+                                                <button type="button" class="btn btn-info" ng-click="AddNote()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Note</button>
+                                                <div style="display: inline-block;" ng-show="ShowMoreNotes"><a href="" ng-click="ShowNotesModal()">Show All</a></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end of notes section --> 
+                </form>
+                <div class="panel panel-default" ng-show="ShowSection >= 3 && Record.Children.length > 0 || Record.ParentId != 0">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div ng-show="Record.ParentId != 0" class="col-md-1 col-md-offset-5">
+                                <label class="control-label">Parent Rec</label>
+                            </div>
+                            <div ng-show="Record.ParentId != 0" class="col-md-1">
+                                <h4 style="margin: 1px 0 0 0;"><a href="" ng-click="GoToParentRec()">{{Record.ParentId}}</a></h4>
+                            </div>
+                            <div ng-hide="Record.ParentId != 0" ng-class="Record.ParentId != 0 ? 'col-md-2 col-md-offset-1' : 'col-md-2 col-md-offset-4'">
+                                <label class="control-label">Related Records</label>
+                            </div>
+                            <div class="col-md-2" ng-hide="Record.ParentId != 0">
+                                <select class="form-control" ng-model="Child" ng-options="r.Id for r in Record.Children" ng-change="GoToChildRec()"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>  

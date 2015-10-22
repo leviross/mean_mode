@@ -1,0 +1,159 @@
+body {
+    font-size:12px;
+}
+
+/* form controls and groups */
+.form-group {
+    margin-bottom: 4px;
+}
+
+.pagination > li > a,
+.pagination > li > span,
+.btn,
+.form-control {
+    height: 28px;
+    padding: 3px 8px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+.form-control {
+    width: 100%;
+}
+
+.form-horizontal .control-label {
+    padding-top: 4px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+/* navbar */
+.navbar {
+    min-height: 30px;
+    margin-bottom: 4px; 
+}
+.navbar-default {
+    /*background-color: #637F93;*/
+    border-color: #939393;
+}
+.navbar-default .navbar-nav > li > a {
+    /*color: #FFF;*/
+}
+.navbar-default .navbar-brand {
+    /*color: #FFF;*/
+    text-shadow: 2px 2px 1px #ccc;
+}
+
+.nav-tabs > li.inactive > a,
+.nav-tabs > li.inactive > a:hover,
+.nav-tabs > li.inactive > a:focus{
+    background-color:#DDD;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    background-color: #C8D8DD;
+    color:#000;
+    font-weight:bold;
+    font-size:14px;
+}
+.tab-content {
+    background-color: #C8D8DD;
+}
+
+
+/* panel */
+.panel {
+    margin-bottom: 5px;
+}
+.panel-body {
+    background-color: #ECECEC;
+    padding: 2px;
+}
+.panel-default > .panel-heading {
+    color: #FFF;
+    background-color: #999999;
+    border-color: #6C6C6C;
+}
+.panel-default {
+    border-color: #6E6E6E;
+}
+
+.panel-title {
+    font-weight:bold;
+}
+
+
+
+/* table */
+.table {
+    margin-bottom: 0px;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    line-height: .9;
+    vertical-align:middle;
+}
+
+/* well */
+.well {
+    margin-bottom: 0px;
+    padding: 2px 15px 2px 15px;
+}
+
+/* pagination thing on the navbar to set margin to 0 on mobile
+@media (max-width: 500px) {
+  #navpager {
+    margin-left:0px;
+  }
+} */
+.pagination {
+    margin:10px 0 0 0;
+}
+@media(min-width: 600px) {
+    #navpager {
+        margin-left:200px;
+    }
+}
+
+.selected {
+    background-color: rgba(0, 0, 255, 0.2);
+}
+
+
+.form-control2 {
+  display: block;
+  width: 100%;
+  height: 19px;
+  padding: 0px 0px 2px 3px;
+  font-size: 10px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.box-shadow{
+    -webkit-box-shadow: 10px 10px 12px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 12px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 12px 0px rgba(0,0,0,0.75);
+}
+p.td{
+    font-size: 11px;
+}
+@media print {
+    div.print {
+        background-color: #474747;
+    }
+}
+
+

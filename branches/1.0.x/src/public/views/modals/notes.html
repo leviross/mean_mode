@@ -1,0 +1,61 @@
+<div ng-controller="NotesController">
+    <div class="modal fade" id="NotesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center" id="myModalLabel">All Notes</h4>
+                </div>
+                <div ng-show="Section == 1">
+                    <div class="panel panel-default" style="margin-bottom: inherit;">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 13%;">Date</th>
+                                                <th style="width: 13%;">Technician</th>
+                                                <th style="width: 13%;">DateModified</th>
+                                                <th style="width: 61%;">Note</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="note in TechNotes | orderBy:'-Date'">
+                                                <td ng-model="note.Date">{{note.Date}}</td>
+                                                <td ng-model="note.Tech"></td>
+                                                <td ng-model="note.DateModified">{{note.DateModified}}</td>
+                                                <td>{{note.Note}}</td>
+                                                <td><button class="btn btn-warning" ng-click="EditNote(note.Note, $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="14">
+                                                    <button type="button" class="btn btn-info" ng-click="AddNote()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Add Note</button>                                               
+                                                </td>
+                                            </tr>
+                                        </tbody>    
+                                    </table>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end of notes section -->
+                <div ng-show="Section == 2">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <form name="NoteArea">
+                                <textarea rows="3" id="NoteInput2" type="text" class="form-control" ng-model="TechNote"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-show="Section == 2 && !EditMode" ng-click="Submit()">Add Note</button>
+                    <button class="btn btn-primary" ng-show="EditMode" ng-click="SubmitEdit()">Edit Note</button>
+                    <button type="button" class="btn btn-default" ng-show="Section == 2" ng-click="BackToNotes()">Cancel</button>
+                    <button type="button" class="btn btn-default" ng-show="Section == 1" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

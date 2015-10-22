@@ -1,0 +1,65 @@
+<div ng-controller="AddPartController">
+    <div class="modal fade" id="AddPartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 ng-hide="EditMode" class="modal-title text-center" id="myModalLabel">Add a Part</h4>
+                    <h4 ng-show="EditMode" class="modal-title text-center" id="myModalLabel">Edit a Part</h4>
+                </div>
+                <form name="PartForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Brand</label>
+                                    <select  ng-model="Brand" class="form-control" ng-options="b.name for b in Brands"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Model #</label>
+                                    <input  type="text" class="form-control" placeholder="Model #" ng-model="ModelNo">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Model Name</label>
+                                    <input  type="text" class="form-control" placeholder="Model Name" ng-model="ModelName">
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">No</label>
+                                    <input  id="PartInput" type="text" class="form-control" placeholder="Part No" ng-model="No">
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label class="control-label">Desc</label>
+                                    <input  type="text" class="form-control" placeholder="Description" ng-model="Desc">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">Cost</label>
+                                <input  type="text" placeholder="Cost" class="form-control" ng-model="Cost" />
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">Price</label>
+                                <input  type="text" placeholder="Price" class="form-control" ng-model="Price" />
+                            </div>
+                        </div>
+                     
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button ng-hide="EditMode" type="button" class="btn btn-primary" ng-click="AddPart()">Add</button>
+                        <button ng-show="EditMode" type="button" class="btn btn-primary" ng-click="EditPart()">Edit</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>

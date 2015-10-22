@@ -1,0 +1,107 @@
+<div ng-controller="TopNavController">	
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="" ng-click="GoToDashBoard()">Service</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-left:100px">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Records <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li ng-click="NewRecord()"><a href="">New</a></li>
+							<li ng-click="SearchRecord()"><a href="">Search</a></li>
+							<li ng-show="RecordNo" ng-click="NewRelatedRec()"><a href="">New Related</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Other <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="">Contacts</a></li>
+							<li><a href="/#/parts">Parts</a></li>
+						</ul>
+					</li>
+				</ul>	   
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Print <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="">Repair</a></li>
+							<li><a href="">Check In</a></li>
+							<li><a href="">Special</a></li>
+							<li><a href="">Special All</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/#/admin/users">Manage Users</a></li>
+							<li><a href="/#/admin/warranty-types">Warranty Types</a></li>
+							<!-- <li><a href="/#/admin/brands">Parts</a></li> -->
+							<li><a href="/#/admin/repair-types">Repair Types</a></li>
+							<li><a href="/#/admin/tax-rate">Tax Rate</a></li>
+							<li><a href="/#/admin/districts">Districts</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="">Pending</a></li>
+							<li><a href="">Count</a></li>
+							<li><a href="">Profilt</a></li>
+							<li><a href="">Stock Oders</a></li>
+							<li><a href="">Escalated</a></li>
+							<li><a href="">Payments</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Open Rec's <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu" ng-repeat="rec in Records">
+							<li><a href="">Rec #: {{rec._id}}</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/#/settings">Settings</a></li>
+							<li class="divider"></li>
+							<li><a href="" ng-click="Logout()">Log Out</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left" style="margin-left:200px" ng-show="ShowRecordNavThing == true" ng-submit="SearchRecordNo()">
+					<div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-disabled="DisablePrev" ng-click="PrevRecord()"><span class="glyphicon glyphicon-backward"></span></button>
+						</span>
+						<input style="border-color: #ccc; width:100px;" id="NavRecordNo" type="text" class="form-control text-center" ng-model="RecordNo">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-disabled="DisableNext" ng-click="NextRecord()"><span class="glyphicon glyphicon-forward"></span></button>
+						</span>
+					</div>
+				</form>
+
+			</div><!-- /.navbar-collapse -->
+
+		</div><!-- /.container-fluid -->
+	</nav>
+</div>

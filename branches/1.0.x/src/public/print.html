@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MCS Service</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-overloads.css">
+    <link rel="stylesheet" type="text/css" href="./css/simplegrid.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container" ng-app="PrintApp">
+    <div ng-controller="PrintRecordController">
+        <div id="PrintDiv">
+            <div class="row">
+                <div class="col-xs-12">
+                    <img width="100%;" height="5%" src="../../images/Capture.PNG">
+                </div>
+            </div><br />
+            <table style="border: 2px solid #ccc;" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Job #</th>
+                        <th style="width: 20%;">Type</th>
+                        <th style="width: 20%">Work Order #</th>
+                        <th style="width: 30%;">Requester</th>
+                        <th style="width: 15%;">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{Record._id}}</td>
+                        <td>{{Record.Type}}</td>
+                        <td>{{Record.WorkOrderNo}}</td>
+                        <td>{{Record.Requester}}</td>
+                        <td>{{Record.DateCreated}}</td>
+                    </tr>
+                </tbody>    
+            </table><br />
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="control-label">Customer Info</label>
+                    <textarea style="font-size: 12px; border-radius: 2px;" rows="6" class="form-control" ng-model="Record.Contact"></textarea>
+                </div>
+                <div class="col-xs-6">
+                    <label class="control-label">Problem Description</label>
+                    <textarea rows="6" style="font-size: 12px; border-radius: 2px;" class="form-control" ng-model="Record.Problem"></textarea>
+                </div>
+            </div><br />
+            <table style="border: 2px solid #ccc;" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Model Name</th>
+                        <th>Model #</th>
+                        <th>Serial #</th>
+                        <th>Asset Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="a in Record.Assets">
+                        <td>{{a.Brand}}</td>
+                        <td>{{a.ModelName}}</td>
+                        <td>{{a.ModelNo}}</td>
+                        <td>{{a.SerialNo}}</td>
+                        <td>{{a.AssetTag}}</td>
+                    </tr>
+                </tbody>    
+            </table><br />
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="control-label">Accessories</label>
+                    <input type="text" class="form-control2" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">Accessories 2</label>
+                    <input type="text" class="form-control2" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">Accessories 3</label>
+                    <input type="text" class="form-control2" />
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-xs-3">
+                    <label class="control-label">Service Plan</label>
+                    <input type="text" class="form-control2" ng-model="Record.ServicePlan" />
+                </div>
+                <div class="col-xs-2">
+                    <label class="control-label">PO #</label>
+                    <input type="text" class="form-control2" ng-model="Record.PO" />
+                </div>
+                <div class="col-xs-2">
+                    <label class="control-label">Exp</label>
+                    <input type="text" class="form-control2" ng-model="Record.ServicePlanExp" />
+                </div>
+                <div class="col-xs-5">
+                    <label class="control-label">Data Backup</label>
+                    <textarea style="font-size: 12px; border-radius: 2px;" class="form-control" ng-model="Record.BackupText"></textarea>
+                </div>
+            </div><br />
+        
+            <div class="row">
+                <div class="col-xs-12">
+                    <table style="border: 2px solid #ccc;" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Qty</th>
+                                <th style="width: 15%;">Type</th>
+                                <th style="width: 15%;">Part #</th>
+                                <th style="width: 45%;">Part Desc</th>
+                                <th style="width: 15%;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="p in Record.Parts" ng-hide="p.Hide">
+                                <td><p class="td">{{p.Qty}}</p></td>
+                                <td><p class="td">{{p.Type}}</p></td>
+                                <td><p class="td">{{p._id}}</p></td>
+                                <td><p class="td">{{p.Desc}}</p></td>
+                                <td><p class="td">{{p.Price | currency}}</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="control-label">Action Taken</label>
+                    <textarea style="font-size: 12px;" rows="4" class="form-control" ng-model="CompleteInfo.ActionNotes"></textarea>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-4">
+                            <label class="control-label">Parts Total</label>
+                        </div>  
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control2" ng-model="Totals.PartsTotal" />
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-4">
+                            <label class="control-label">Labor Total</label>
+                        </div>  
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control2" ng-model="Totals.LaborTotal" />
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-4">
+                            <label class="control-label">Shipping Total</label>
+                        </div>  
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control2" ng-model="Totals.ShippingTotal" />
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-4">
+                            <label class="control-label">Subtotal</label>
+                        </div>  
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control2" ng-model="Totals.SubTotal" />
+                        </div>  
+                    </div>                                      
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-xs-2">
+                    <label class="control-label">Repaired By</label>                        
+                    <input type="text" class="form-control2" ng-model="CompleteInfo.RepairedBy" />
+                </div>
+                <div class="col-xs-2">
+                    <label class="control-label">Date</label>                       
+                    <input type="text" class="form-control2" ng-model="CompleteInfo.Date" />
+                </div>
+                <div class="col-xs-3">
+                    <label class="control-label">Payment Type</label>                       
+                    <input type="text" class="form-control2" ng-model="Record.PaymentType" />
+                </div>
+                <div class="col-xs-2 col-xs-offset-1">
+                    <label class="control-label">Tax</label><br />
+                    <label class="control-label"><strong>TOTAL</strong></label>
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control2" ng-model="Totals.Tax" />
+                    <input style="margin-top: 4px;" type="text" class="form-control2" ng-model="Totals.Total" />
+                </div>
+            </div><br /><br /> 
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="control-label">Released To ___________________________________________________  </label>
+                    <label style="margin-left: 13px;">Date ______________________</label>
+                </div>
+            </div>
+        </div><br />
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+        <button type="button" class="btn btn-primary" ng-hide="HidePrintButton" ng-click="Print()">Print</button>
+    </div> 
+    </div>
+    <script src="./scripts/angular.min.js"></script>
+    <script>
+
+    var app = angular.module('PrintApp', []);
+
+    app.controller('PrintRecordController', ['$scope', function ($scope) {
+
+        console.log(window.Record);
+        console.log(window.Totals);
+
+        var date = window.Record.DateCreated.split(',');
+        //var accessories = window.Record.Accessories TODO: get accessories and display...
+        if(window.Record.CompleteInfo == null) {
+            var repairedDate = "";
+        }else {
+            var repairedDate = window.Record.CompleteInfo.Date.split(',');
+        }
+
+        if(window.Record.ServicePlan == "0") {
+            var servicePlan = "Out of Warranty";
+        }else if(window.Record.ServicePlan == "1") {
+            var servicePlan = "Manufacturer Warranty";
+        }else {
+            var servicePlan = "MicroK12 90 Day Warranty";
+        }
+
+        $scope.Record = {
+            _id: window.Record._id,
+            Type: window.Record.Type, 
+            WorkOrderNo: window.Record.WorkOrderNo,
+            ClaimNo: window.Record.ClaimNo,
+            Requester: window.Record.Requester,
+            DateCreated: date[0],
+            Problem: window.Record.Problem,
+            Assets: window.Record.Assets,
+            ServicePlan: servicePlan,
+            ServicePlanExp: window.Record.ServicePlanExp,
+            PO: window.Record.PO,
+            BackupText: window.Record.BackupText,
+            Parts: window.Record.Parts,
+            PaymentType: window.Record.PaymentType           
+        };
+
+        $scope.Totals = {
+            PartsTotal: "$"+ window.Totals.Parts,
+            LaborTotal: "$"+ window.Totals.Labor,
+            ShippingTotal: "$"+ window.Totals.Shipping,
+            SubTotal: "$"+ window.Totals.SubTotal,
+            Tax: "$"+ window.Totals.Tax,
+            Total: "$"+ window.Totals.Total
+        };
+
+
+
+        $scope.CompleteInfo = {
+            Date: repairedDate[0],
+            ActionNotes: window.Record.CompleteInfo.ActionNotes,
+            RepairedBy: window.Record.CompleteInfo.RepairedBy
+        };
+
+        if(window.Record.Contact.Phone2.length < 4) {
+            var phone2 = "";
+        }else {
+            if(window.Record.Contact.Phone2Type.length < 2) {
+                var phone2 = "Phone2: " + window.Record.Contact.Phone2;
+            }else {
+                var phone2 = window.Record.Contact.Phone2Type + ": " + window.Record.Contact.Phone2;
+            }
+            
+        }
+
+        if(window.Record.Contact.Company != "") {
+            var company = window.Record.Contact.Company + '\n';
+        }else {
+            var company = "";
+        }
+
+        $scope.Record.Contact = company + window.Record.Contact.NameFirst + " " + window.Record.Contact.NameLast + '\n' + window.Record.Contact.Address + " " + window.Record.Contact.Address2 + '\n' + window.Record.Contact.City + ", " + window.Record.Contact.State + " " + window.Record.Contact.Zip + '\n' + window.Record.Contact.Phone1Type + ': ' + window.Record.Contact.Phone1 + "  " + phone2 + '\n' + window.Record.Contact.Email;
+        
+
+
+        $scope.Print = function () {
+            $scope.HidePrintButton = true;
+            printElement(document.getElementById("PrintDiv"));
+
+            function printElement(elem) {
+                // var domClone = elem.cloneNode(true);
+                // document.body.innerHTML = "";
+                // var $printSection = document.createElement("div");
+                // $printSection.id = "printSection";
+                // document.body.appendChild($printSection);
+                // $printSection.innerHTML = "";
+                // $printSection.appendChild(domClone);
+                window.print();
+                window.close();
+            }
+
+        }
+
+
+    }]);    
+
+
+    </script>  
+
+
+
+
+
+</body>
+</html> 
+  

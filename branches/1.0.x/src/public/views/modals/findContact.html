@@ -1,0 +1,152 @@
+﻿<div ng-controller="FindContactController">
+    <div class="modal fade" id="findContactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 ng-show="DisplayMode == 'list'" class="modal-title" id="myModalLabel">Find Contact</h4>
+                    <h4 ng-show="DisplayMode == 'edit'" class="modal-title" id="myModalLabel">Update Contact</h4>
+                    <h4 ng-show="DisplayMode == 'new'" class="modal-title" id="myModalLabel">Create Contact</h4>
+                </div>
+                <form name="SearchForm" class="modal-body" ng-submit="SearchBy()" novalidate>
+                    <div class="row col-sm-12 form-horizontal">
+                        <div ng-show="DisplayMode == 'list'" class="form-group">
+                            <div class="col-sm-4">
+                                <input id="firstName" style="border-color: #ccc;" type="text" data-ng-model="FirstName" placeholder="Search First Name..." class="form-control" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input style="border-color: #ccc;" type="text" data-ng-model="LastName" placeholder="Search Last Name..." class="form-control" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input style="border-color: #ccc;" type="text" data-ng-model="Company" placeholder="Search Company..." class="form-control" />
+                            </div>
+                            <div class="add-button col-sm-1">
+                                <button class="btn btn-success">
+                                    <span ng-click="NewContact($event)" class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>    
+                <br />
+                <hr ng-show="DisplayMode == 'list'" />
+                <div ng-show="DisplayMode == 'list' && Contacts.length > 0">
+                    <table class="list-view table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-md-4">First Name</th>
+                                <th class="col-md-4">Last Name</th>
+                                <th class="col-md-4">Company</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="contact in Contacts | PageFilter:CurrentPage*PageSize | limitTo: PageSize" ng-click="SetSelectedRow(contact)" ng-class="{selected: contact._id == SelectedRowId}">
+                                <td class="col-md-4"><h6>{{contact.NameFirst}}</h6></td>
+                                <td class="col-md-4"><h6>{{contact.NameLast}}</h6></td>
+                                <td class="col-md-4"><h6>{{contact.Company}}</h6></td>
+                                <td><button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="EditContact(contact)"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </br>
+                    <button class="btn btn-primary" ng-disabled="CurrentPage === 0" ng-click="CurrentPage = CurrentPage-1">Prev</button><h5 style="display: inline-block;">        {{CurrentPage+1}}/{{NumberOfPages()}}</h5>
+                    <button class="btn btn-primary" ng-disabled="CurrentPage >= Contacts.length/PageSize -1" ng-click="CurrentPage = CurrentPage +1">Next</button>
+                </div>
+
+                <form name="ContactForm" class="validated-form" ng-show="DisplayMode != 'list'" novalidate>
+                    <div class="modal-body row">
+                       <label class="col-sm-1 control-label">Type</label>
+                       <div class="col-sm-5">
+                            <select ng-model="ContactDetails.TypeDisplay" class="form-control" ng-options="type.name as type.name for type in Types"><option></option>
+                            </select>
+                        </div>
+                        <label class="col-sm-1 control-label">Id</label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Id" ng-model="ContactDetails._id" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">Comp</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Company" ng-model="ContactDetails.Company" />
+                        </div>
+                    </div>
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">First</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="First Name" ng-model="ContactDetails.NameFirst" required />
+                        </div>
+                        <label class="col-sm-1 control-label">Last</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Last Name" ng-model="ContactDetails.NameLast" required />
+                        </div>
+                    </div>
+
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">Email</label>
+                        <div class="col-sm-11">
+                            <input type="email" class="form-control" placeholder="Email" ng-model="ContactDetails.Email" ng-minlength="5" required />
+                        </div>
+                    </div>
+
+
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">Addr</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" placeholder="Address 1" ng-model="ContactDetails.Address" ng-minlength="10" required />
+                        </div>
+                        <label class="col-sm-1 control-label">Room</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="Room No" ng-model="ContactDetails.Address2" />
+                        </div>
+                    </div>
+
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">City</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="City" ng-model="ContactDetails.City" ng-minlength="3" required />
+                        </div>
+                        <label class="col-sm-1 control-label">State</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" placeholder="State" ng-model="ContactDetails.State" ng-minlength="2" ng-maxlength="2" required />
+                        </div>
+                        <label class="col-sm-1 control-label">Zip</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="Zip" ng-model="ContactDetails.Zip" ng-minlength="5" ng-maxlength="5" required />
+                        </div>
+                    </div>
+
+                    <div class="modal-body row">
+                        <label class="col-sm-1 control-label">Ph1</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Phone 1" ng-model="ContactDetails.Phone1" ng-minlength="10" required />
+                        </div>
+                        <label class="col-sm-1 control-label">Ph2</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Phone 2" ng-model="ContactDetails.Phone2" ng-minlength="10" />
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="modal-footer" ng-show="DisplayMode == 'edit'">
+                    <button type="button" class="btn btn-default" ng-click="BackToSearch()">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!ContactForm.$valid" ng-click="UpdateContact()">Update</button>
+                </div>
+                <div class="modal-footer" ng-show="DisplayMode == 'new'">
+                    <button type="button" class="btn btn-default" ng-click="BackToSearch()">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!ContactForm.$valid" ng-click="CreateNewContact()">Create</button>
+                </div>
+                <div class="modal-footer" ng-show="DisplayMode == 'list'">
+                    <button type="button" class="btn btn-default" ng-click="ClearSearch()" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="!RowSelected" ng-click="SelectContact()" data-dismiss="modal">Select</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

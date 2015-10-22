@@ -1,0 +1,80 @@
+.search-name {
+    margin-bottom: 4px;
+}
+table.list-view {
+	cursor: pointer;
+}
+/*.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+	border-color: #78FA89;
+} commented this out to take out form border validations so i could delete all those in line border color styles*/
+div.no-validation {
+	border-color: #ccc;
+}
+div.add-button {
+	margin-top: 5px;
+}
+h4.admin-tab {
+	text-align: center;
+}
+h3.dashboard { 
+	text-align: center;
+}
+h3.active {
+	font-weight: bold;
+	color: #78FA89;
+}
+tr.selected {
+	background-color: rgba(0,0,250,0.3);
+}
+button.my-button {
+	width: 140px;
+	height: 50px;
+	background-color: rgba(19, 81, 133, 0.5);
+	border-radius: 10px;
+	font-size: 17px;
+}
+select.no-color {
+	border-color: #ccc;
+}
+.ui-autocomplete {
+	z-index: 1041;
+}
+
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+@media print {
+  body * {
+    visibility:hidden; 
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position: absolute;
+    left:0;
+    top:0;    
+  }
+}
+div.scroll {
+	height: 450px; 
+	overflow-y: auto;
+}
+div.no-scroll {
+	/* just an empty class for brands.html line 68 */
+}
+.no-color {
+	border-color: #ccc;
+}
+
+
+
+
+
+

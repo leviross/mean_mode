@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MCS Service</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-overloads.css">
+    <link rel="stylesheet" type="text/css" href="./css/simplegrid.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="container" ng-app="DistrictPrintApp">
+    <div ng-controller="DistrictPrintController">
+        <div id="PrintDiv">
+            <div class="row">
+                <div class="col-xs-12">
+                    <img width="100%;" height="5%" src="../../images/Capture.PNG">
+                </div>
+            </div><br /><br />
+            <div class="text-center">
+                <h4 class="text-center">Request Info</h4>
+            </div> 
+            <table style="border: 2px solid #ccc;" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Job #</th>
+                        <th style="width: 20%;">School</th>
+                        <th style="width: 20%">Work Order #</th>
+                        <th style="width: 30%;">Requester</th>
+                        <th style="width: 15%;">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{Record._id}}</td>
+                        <td>{{Record.Contact.Company}}</td>
+                        <td>{{Record.WorkOrderNo}}</td>
+                        <td>{{Record.Requester}}</td>
+                        <td>{{Record.DateCreated}}</td>
+                    </tr>
+                </tbody>    
+            </table><br />
+            <div class="text-center">
+                <h4 class="text-center">Equipment Info</h4>
+            </div> 
+            <table style="border: 2px solid #ccc;" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Model Name</th>
+                        <th>Model #</th>
+                        <th>Serial #</th>
+                        <th>Asset Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="a in Record.Assets">
+                        <td>{{a.Brand}}</td>
+                        <td>{{a.ModelName}}</td>
+                        <td>{{a.ModelNo}}</td>
+                        <td>{{a.SerialNo}}</td>
+                        <td>{{a.AssetTag}}</td>
+                    </tr>
+                </tbody>    
+            </table><br />
+            <div class="row">
+                <div class="col-xs-4">
+                    <label class="control-label">Phone #</label>
+                    <input type="text" class="form-control" ng-model="Record.Contact.Phone1" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">PO #</label>
+                    <input type="text" class="form-control" ng-model="Record.PO" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">Warranty Exp.</label>
+                    <input type="text" class="form-control" ng-model="Record.ServicePlanExp" />
+                </div>
+            </div><br /> 
+            <div class="text-center">
+                <h4 class="text-center">Resolution</h4>
+            </div>    
+            <div class="row">    
+                <div class="col-xs-4">
+                    <label class="control-label">Repaired By</label>                        
+                    <input type="text" class="form-control" ng-model="CompleteInfo.RepairedBy" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">Date</label>                       
+                    <input type="text" class="form-control" ng-model="CompleteInfo.Date" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label">Payment Type</label>                       
+                    <input type="text" class="form-control" ng-model="Record.PaymentType" />
+                </div>                      
+            </div><br />
+            <div class="row">
+                <div class="col-xs-6">
+                    <label class="control-label">Problem Description</label>
+                    <textarea rows="6" style="border-radius: 2px;" class="form-control" ng-model="Record.Problem"></textarea>
+                </div>
+                <div class="col-xs-6">
+                    <label class="control-label">Action Taken</label>
+                    <textarea rows="6" class="form-control" ng-model="CompleteInfo.ActionNotes"></textarea>
+                </div>
+            </div>               
+        </div><br />
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+        <button type="button" class="btn btn-primary" ng-hide="HidePrintButton" ng-click="Print()">Print</button>
+    </div> 
+    </div>
+    <script src="./scripts/angular.min.js"></script>
+    <script>
+
+    var app = angular.module('DistrictPrintApp', []);
+
+    app.controller('DistrictPrintController', ['$scope', function ($scope) {
+
+        console.log(window.Record);
+
+        var date = window.Record.DateCreated.split(',');
+        //var accessories = window.Record.Accessories TODO: get accessories and display...
+        if(window.Record.CompleteInfo == null) {
+            var repairedDate = "";
+        }else {
+            var repairedDate = window.Record.CompleteInfo.Date.split(',');
+        }
+
+        if(window.Record.ServicePlan == "0") {
+            var servicePlan = "Out of Warranty";
+        }else if(window.Record.ServicePlan == "1") {
+            var servicePlan = "Manufacturer Warranty";
+        }else {
+            var servicePlan = "MicroK12 90 Day Warranty";
+        }
+
+        $scope.Record = {
+            _id: window.Record._id,
+            WorkOrderNo: window.Record.WorkOrderNo,
+            ClaimNo: window.Record.ClaimNo,
+            Requester: window.Record.Requester,
+            DateCreated: date[0],
+            Problem: window.Record.Problem,
+            Assets: window.Record.Assets,
+            ServicePlan: servicePlan,
+            ServicePlanExp: window.Record.ServicePlanExp,
+            PO: window.Record.PO,
+            PaymentType: window.Record.PaymentType           
+        };
+
+        $scope.CompleteInfo = {
+            Date: repairedDate[0],
+            ActionNotes: window.Record.CompleteInfo.ActionNotes,
+            RepairedBy: window.Record.CompleteInfo.RepairedBy
+        };
+
+        $scope.Print = function () {
+            $scope.HidePrintButton = true;
+            printElement(document.getElementById("PrintDiv"));
+
+            function printElement(elem) {
+                window.print();
+                window.close();
+            }
+
+        }
+
+
+    }]);    
+
+
+    </script>  
+
+
+
+
+
+</body>
+</html> 
+  

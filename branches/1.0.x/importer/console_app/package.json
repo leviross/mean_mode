@@ -1,0 +1,17 @@
+{
+  "name": "console_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.0",
+    "cors": "^2.7.1",
+    "express": "^4.12.4",
+    "mongoose": "^4.0.5"
+  }
+}

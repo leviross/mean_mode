@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MCS Service</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-overloads.css">
+    <link rel="stylesheet" type="text/css" href="./css/simplegrid.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <br />
+    <br />
+    <div class="text-center">
+        <img src="./images/micrologo.png" />
+        <h2 class="text-center">Asset Servicing System</h2>
+    </div>
+    <div ng-app="DistrictLoginApp">
+    <div class="col-sm-12" ng-controller="DistrictLoginController">
+        <div class="well col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+            <form>
+                <div class="form-group" style="margin-bottom:20px">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" ng-model="Email" placeholder="Your MicroK12 Email Address" />
+                </div>
+                <div class="form-group" style="margin-bottom:20px">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" ng-model="Password" placeholder="Password" />
+                </div>
+                <div class="btn btn-primary" ng-click="Login()">Login</div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <script src="./scripts/angular.min.js"></script>
+    <script>
+
+    var app = angular.module('DistrictLoginApp', []);
+
+    app.controller('DistrictLoginController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+        $scope.Email = "lcc4021@yahoo.com";
+        $scope.Password = "hh5762"; 
+
+        $scope.Login = function () {
+
+            var LoginData = { Email: $scope.Email, Password: $scope.Password };
+
+            $http.post('http://localhost:4000/api/districtlogin', LoginData)
+                .success(function (contact) {
+                    console.log("contact from login ctrl", contact);
+                    if(contact != null) {
+                        var url = 'http://' + location.host + '/#/district-dashboard';
+                        $http.post('http://localhost:3030/createsession', contact)
+                        .then(function (retval) {
+                            //Sending them to our Angular app after we created new session with contact. 
+                            window.location = url;
+                        }, function (err) {
+                            console.log(err);
+                        });
+                    }else {
+                        alert("Login details were incorrect, try again.");
+                        //TODO: let contact know
+                    }
+                })
+                .error(function (err) {
+                    console.log(err);
+                });
+        }           
+     
+    }]); 
+    </script>
+    
+</body>
+</html>

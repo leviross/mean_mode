@@ -1,0 +1,232 @@
+<div class="container">
+	<br />
+	<div class="text-center">
+		<img src="./images/micrologo.png" />
+		<h2 class="text-center">Service Dashboard</h2>
+	</div>	
+    <div class="row">
+        <div class="col-md-1" ng-show="Section == 2">
+            <button class="btn btn-primary" ng-click="Print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+        </div>
+    	<div class="col-md-2 col-md-offset-9" ng-show="Section > 1">
+    		<button class="btn btn-info" ng-click="Back()"><span class="glyphicon glyphicon-menu-left"></span> Back</button>
+    		<button class="btn btn-danger" ng-click="Logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+    	</div>
+    </div> 
+    <div ng-show="Section == 1"> 
+        <div class="row">
+            <div class="col-md-1 col-md-offset-10">
+                <button class="btn btn-danger" ng-click="Logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+            </div>
+        </div><br />
+    	<div class="row">
+    		<div class="col-md-12">
+    			<div class="col-md-5">
+    				<div class="row">
+    					<h5 class="col-md-4">Hi, {{User.NameFirst}}</h5>
+    					<button class="col-md-4 col-md-offset-4 btn btn-info" ng-click="NewRecord()">Create New Job</button>
+    				</div><br />
+    				<div class="row">
+    					<div class="col-md-6">
+    						<label class="control-label">Select field to search by</label>
+    					</div>
+    				</div>
+    				<form ng-submit="SearchRecords()">
+    					<div class="row">
+                            <div class="col-md-5">
+                                <select ng-model="SearchType" class="form-control" ng-options="s.name for s in SearchFields"></select>
+                            </div>    
+    						<div class="col-md-7">
+    							<input type="text" ng-model="SearchTerm" class="form-control" placeholder="Search Term.." />
+    						</div>
+    					</div><br />
+    					<div class="row">
+    						<div class="col-md-2">
+    							<button ng-disabled="!SearchTerm || !SearchType" class="btn btn-primary">Search</button>
+    						</div>
+    					</div>
+    				</form>	
+    			</div>
+    			<div class="col-md-7">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Recent Orders</div>
+                        <!-- Table -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">JobNo.</th>
+                                    <th style="width: 20%;">Work Order #</th>
+                                    <th style="width: 25%;">Date</th>
+                                    <th style="width: 20%;">Serial #</th>
+                                    <th style="width: 20%;">Asset Tag</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    	                        <tr ng-repeat="r in Recents">
+    	                            <td><a href="" ng-click="ViewRecentRec($index)">{{r._id}}</a></td>
+    	                            <td>{{r.WorkOrderNo}}</td>
+    	                            <td>{{r.DateCreated}}</td>
+    	                            <td>{{r.Assets[0].SerialNo}}</td>
+    	                            <td>{{r.Assets[0].AssetTag}}</td>
+    	                        </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    		</div>
+    	</div>
+    </div>
+	<div ng-show="Section == 2">
+        <div class="text-center">
+            <h4 class="text-center">Request Info</h4>
+        </div>  
+		<table style="border: 2px solid #ccc;" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Job #</th>
+                    <th style="width: 20%;">School</th>
+                    <th style="width: 20%">Work Order #</th>
+                    <th style="width: 30%;">Requester</th>
+                    <th style="width: 15%;">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{Record._id}}</td>
+                    <td>{{Record.Contact.Company}}</td>
+                    <td>{{Record.WorkOrderNo}}</td>
+                    <td>{{Record.Requester}}</td>
+                    <td>{{Record.DateCreated}}</td>
+                </tr>
+            </tbody>    
+        </table><br />
+        <div class="text-center">
+            <h4 class="text-center">Equipment Info</h4>
+        </div> 
+        <table style="border: 2px solid #ccc;" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model Name</th>
+                    <th>Model #</th>
+                    <th>Serial #</th>
+                    <th>Asset Tag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="a in Record.Assets">
+                    <td>{{a.Brand}}</td>
+                    <td>{{a.ModelName}}</td>
+                    <td>{{a.ModelNo}}</td>
+                    <td>{{a.SerialNo}}</td>
+                    <td>{{a.AssetTag}}</td>
+                </tr>
+            </tbody>    
+        </table><br />
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Phone #</label>
+                <input type="text" class="form-control" ng-model="Record.Contact.Phone1" />
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">PO #</label>
+                <input type="text" class="form-control" ng-model="Record.PO" />
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">Warranty Exp.</label>
+                <input type="text" class="form-control" ng-model="Record.ServicePlanExp" />
+            </div>
+        </div><br />
+        <div class="text-center">
+            <h4 class="text-center">Resolution</h4>
+        </div> 
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">Repaired By</label>                        
+                <input type="text" class="form-control" ng-model="CompleteInfo.RepairedBy" />
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">Date</label>                       
+                <input type="text" class="form-control" ng-model="CompleteInfo.Date" />
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">Payment Type</label>                       
+                <input type="text" class="form-control" ng-model="Record.PaymentType" />
+            </div>                      
+        </div><br />
+        <div class="row">
+            <div class="col-md-6">
+                <label class="control-label">Action Taken</label>
+                <textarea rows="4" class="form-control" ng-model="CompleteInfo.ActionNotes"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">Problem Description</label>
+                <textarea rows="4" style="border-radius: 2px;" class="form-control" ng-model="Record.Problem"></textarea>
+            </div>
+        </div>
+	</div><br />
+	<div ng-show="Section == 3">
+		<div class="row">
+			<div class="col-md-3">
+				<label class="control-label">Equipment Location</label>
+				<select class="form-control" ng-model="Record.School" ng-options="s.name for s in Schools"></select>
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">Work Order #</label>
+				<input type="text" class="form-control" ng-model="Record.WorkOrderNo">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">First Name</label>
+				<input type="text" class="form-control" ng-model="Record.NameFirst">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">Last Name</label>
+				<input type="text" class="form-control" ng-model="Record.NameLast">
+			</div>
+		</div><br />
+		<div class="row">
+			<div class="col-md-3">
+				<label class="control-label">Phone #</label>
+				<input type="text" class="form-control" ng-model="Record.Phone">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">Email</label>
+				<input type="text" class="form-control" ng-model="Record.Email">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">Room #</label>
+				<input type="text" class="form-control" ng-model="Record.RoomNo">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">Brand</label>
+				<select class="form-control" ng-model="Record.Brand" ng-options="b.name for b in Brands"></select>
+			</div>
+		</div><br />
+		<div class="row">
+			<div class="col-md-4">
+				<label class="control-label">Model Name</label>
+				<input type="text" class="form-control" ng-model="Record.ModelName" />
+			</div>
+			<div class="col-md-4">
+				<label class="control-label">Serial #</label>
+				<input type="text" class="form-control" ng-model="Record.SerialNo">
+			</div>
+			<div class="col-md-4">
+				<label class="control-label">Asset Tag</label>
+				<input type="text" class="form-control" ng-model="Record.AssetTag">
+			</div>
+		</div><br />	
+		<div class="row">
+			<div class="col-md-4">
+				<label class="control-label">Describe Problem</label>
+				<textarea class="form-control" ng-model="Record.Problem" rows="4"></textarea>
+			</div>
+			<div class="col-md-1 col-md-offset-6">
+				<button class="btn btn-default" ng-click="Back()">Cancel</button>
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-info" ng-click="CreateRecord()">Create</button>
+			</div>
+		</div><br />
+	</div>
+</div>

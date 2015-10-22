@@ -1,0 +1,135 @@
+<div class="panel panel-default" ng-show="Tab === 5" ng-controller="DistrictController">
+	<div class="panel-body" style="padding: 12px 10px;">
+
+ 		<h4 class="admin-tab" ng-show="Section == 1">Manage Districts</h4> 
+ 		<h4 class="admin-tab" ng-show="Section == 3">{{District.Name}}</h4>
+ 		<br />
+ 		<div ng-show="Section == 1">
+			<div class="row">
+				<div class="col-md-2">
+					<label class="control-label">Send Email</label>
+				</div>
+				<div class="col-md-1">	
+					<input style="margin: 0;" type="checkbox" class="form-control" ng-model="District.SendEmail" ng-change="ToggleSendEmail()" ng-disabled="!District" />
+				</div>
+				<div class="col-md-6" ng-hide="ShowEditName">
+					<select ng-model="DistrictObj" class="form-control" ng-options="d.Name for d in Districts" ng-change="SelectDistrict()"></select>
+				</div>
+				<div class="col-md-2 col-md-offset-1" ng-hide="ShowEditName">
+					<button class="btn btn-danger" ng-click="DeleteDistrict()" ng-disabled="!District"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+				</div>
+				<div class="col-md-4" ng-show="ShowEditName">
+					<input id="EditName" ng-model="District.Name" class="form-control" placeholder="Short Name...">
+				</div>
+				<div class="col-md-5" ng-show="ShowEditName">
+					<input ng-model="District.FullName" class="form-control" placeholder="Full Name...">
+				</div>
+			</div><br />
+			<div ng-show="District.SendEmail">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<label class="control-label">Email Fields: &lt;&lt;JobNumber&gt;&gt;, &lt;&lt;Technician&gt;&gt;, &lt;&lt;WorkOrder&gt;&gt;, &lt;&lt;LastName&gt;&gt;, &lt;&lt;FirstName&gt;&gt;, &lt;&lt;Company&gt;&gt;, &lt;&lt;ActionTaken&gt;&gt;</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<form name="EmailForm"><textarea class="form-control" rows="10" ng-model="District.EmailTemplate"></textarea></form>
+					</div>
+					<div class="col-md-1">
+						<button class="btn btn-primary" ng-click="UpdateEmailTemplate()" ng-disabled="EmailForm.$pristine">Save</button>
+					</div>
+				</div>
+			</div><br />	
+			<div class="row">
+				<div class="col-md-2">
+					<button class="btn btn-success" ng-click="AddDistrict()"><span class="glyphicon glyphicon-plus"></span> Add District</button>
+				</div>
+				<div class="col-md-2 col-md-offset-3">
+					<button class="btn btn-info" ng-click="SearchContacts()" ng-disabled="!District"><span class="glyphicon glyphicon-search"></span> Contacts</button>
+				</div>
+				<div class="col-md-2 col-md-offset-3" ng-hide="ShowEditName">
+					<button class="btn btn-warning" ng-click="EditDistrict()" ng-disabled="!District"><span class="glyphicon glyphicon-pencil"></span> Edit Distr</button>
+				</div>
+				<div class="col-md-3 col-md-offset-2" ng-show="ShowEditName">	
+					<button class="btn btn-primary" ng-click="UpdateDistrict()">Save</button>
+					<button class="btn btn-default" ng-click="BackToDistrict()">Cancel</button>
+				</div>
+			</div><br />
+			<table class="table table-striped list-view">
+				<thead>
+	                <tr>
+	                    <th style="width: 8%;">ID</th>
+	                    <th style="width: 17%;">First</th>
+	                    <th style="width: 18%;">Last</th>
+	                    <th style="width: 26%;">Company</th>
+	                    <th style="width: 26%;">Email</th>
+	                    <th style="width: 5%;"></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="contact in Contacts" ng-click="EditDistrictContact($index)">
+	                    <td><h6>{{contact._id}}</h6></td>
+	                    <td><h6>{{contact.NameFirst}}</h6></td>
+	                    <td><h6>{{contact.NameLast}}</h6></td>
+	                    <td><h6>{{contact.Company}}</h6></td>
+	                    <td><h6>{{contact.Email}}</h6></td>
+	                    <td ng-click="RemoveContact($index)">
+	                    	<button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+	                    </td>
+	                </tr>
+	            </tbody>
+			</table>
+		</div>
+		<div ng-show="Section == 2">
+			<div class="row">
+				<div class="col-md-5 col-md-offset-1">
+					<input type="text" class="form-control" placeholder="District ShortName..." ng-model="Name" />
+				</div>
+				<div class="col-md-6">
+					<input type="text" class="form-control" placeholder="District FullName..." ng-model="FullName" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<button class="btn btn-primary" ng-disabled="Name == '' || FullName == ''" ng-click="CreateDistrict()">Add</button>
+				</div>
+			</div>
+		</div>
+		<div ng-show="Section == 3">
+			<div class="row">
+				<div class="col-md-2">
+					<label class="control-label">ID</label>
+					<input type="text" class="form-control" ng-model="DistrictContact._id" readonly />
+				</div>
+				<div class="col-md-5">
+					<label class="control-label">First</label>
+					<input type="text" class="form-control" ng-model="DistrictContact.NameFirst" />
+				</div>
+				<div class="col-md-5">
+					<label class="control-label">Last</label>
+					<input type="text" class="form-control" ng-model="DistrictContact.NameLast" />
+				</div>
+			</div><br />
+			<div class="row">
+				<div class="col-md-4">
+					<label class="control-label">Company</label>
+					<input type="text" class="form-control" ng-model="DistrictContact.Company" />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label">Email</label>
+					<input type="text" class="form-control" ng-model="DistrictContact.Email" />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label">Password</label>
+					<input type="password" class="form-control" ng-model="DistrictContact.Password" />
+				</div>
+			</div><br />
+			<div class="row">	
+				<div class="col-md-4">
+					<button class="btn btn-primary" ng-click="UpdateDistrictContact()">Save</button>
+					<button class="btn btn-default" ng-click="BackToDistrict()">Cancel</button>
+				</div>
+			</div>
+		</div>
+ 	</div>
+</div> 	

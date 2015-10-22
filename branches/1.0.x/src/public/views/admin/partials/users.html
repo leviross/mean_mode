@@ -1,0 +1,70 @@
+<div class="panel panel-default" ng-show="Tab === 0">
+	<h4 class="admin-tab">Users</h4>
+	<div class="add-button col-md-1 col-md-offset-11" ng-show="DisplayMode === 'list'">
+	    <button class="btn btn-success">
+	        <span ng-click="NewUser()" class="glyphicon glyphicon-plus"></span>
+	    </button>
+	</div>
+	<table class="table table-hover" ng-show="DisplayMode === 'list'">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Edit</th>
+				<th>Block</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in Users">
+				<td><h6>{{user.Name}}</h6></td>
+				<td><h6>{{user.Email}}</h6></td>
+				<td><button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="EditUser(user)"></span></button></td>
+				<td><button type="button" class="btn btn-danger btn-sm" ng-show="user.IsActive == false"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true" ng-click="Activate(user)"></span></button>
+				<button type="button" class="btn btn-success btn-sm" ng-show="user.IsActive == true"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true" ng-click="DeActivate(user)"></span></button></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="container-fluid" ng-show="DisplayMode != 'list'">
+		<form name="UserForm" class="validated-form" novalidate>
+			<br />
+			<div class="row">
+				<label class="col-md-1">Name</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control" placeholder="Name" ng-model="UserDetails.Name" ng-readonly="UserDetails._id != null" required />
+				</div>
+				<label class="col-md-2">New Password</label>
+				<div class="col-md-4">
+					<input name="pass1" type="password" class="form-control" placeholder="New Password" ng-model="UserDetails.NewPassword1" ng-minlength="6" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<label class="col-md-1">Email</label>
+				<div class="col-md-5">
+					<input type="email" class="form-control" placeholder="Email" ng-model="UserDetails.Email" ng-readonly="UserDetails._id != null" required />
+				</div>
+				<label class="col-md-2">Confirm New Password</label>
+				<div class="col-md-4">
+					<input name="pass2" type="password" class="form-control" placeholder="Confirm New Password" ng-model="UserDetails.NewPassword2" ng-minlength="6" />
+				</div>
+			</div>
+			<div class="row" ng-show="UserDetails._id == null">
+				<label class="col-md-1">Admin</label>
+				<select class="col-md-2" ng-model="UserDetails.IsAdmin" ng-options="type.id as type.name for type in UserTypes">
+				</select>
+			</div>
+			<br />
+		</form>	
+
+		<br />
+
+        <div class="col-md-offset-9">
+            <button type="button" class="btn btn-default" ng-click="BackToUsers()">Cancel</button>
+            <button ng-show="UserDetails._id != null" type="button" class="btn btn-primary" ng-disabled="!UserForm.$valid || UserForm.pass1.$pristine || UserForm.pass2.$pristine" ng-click="UpdateUserPassword()">Update</button>
+            <button ng-show="UserDetails._id == null" type="button" class="btn btn-primary" ng-disabled="UserForm.$invalid || UserForm.pass1.$pristine || UserForm.pass2.$pristine" ng-click="CreateUser()">Create</button>
+        </div>
+        <br />
+
+	</div>	
+</div>
+

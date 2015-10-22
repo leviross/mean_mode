@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MCS_ServiceApp">
+<head>
+    <title>MCS Service</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap-overloads.css">
+    <link rel="stylesheet" type="text/css" href="./css/simplegrid.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/contextmenu.css">
+    <link rel="stylesheet" type="text/css" href="./css/custom.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div id="mainbody" ng-controller="MasterController">
+
+        <div id="center">
+            <div>
+                <div ng-include src=" ' views/topnav.html ' "></div>
+                <!-- <div ng-include src=" ' views/print.html ' "></div> -->
+            </div>    
+            <!-- main window -->
+            <div data-ng-view=""></div>
+        </div>
+
+    </div>
+
+    <!-- modal view includes -->
+    <div ng-include src=" ' views/modals/findContact.html ' "></div>
+    <div ng-include src=" ' views/modals/findPart.html ' "></div>
+    <div ng-include src=" ' views/modals/complete.html ' "></div>
+    <div ng-include src=" ' views/modals/inputValue.html ' "></div>
+    <div ng-include src=" ' views/modals/search.html ' "></div>
+    <div ng-include src=" ' views/modals/addNote.html ' "></div>
+    <div ng-include src=" ' views/modals/addPart.html ' "></div>
+    <div ng-include src=" ' views/modals/notes.html ' "></div>
+    <div ng-include src=" ' views/printables/printRecord.html ' "></div>
+
+	<!-- jquery, bootstrap, angular -->
+	<script src="./scripts/jquery-2.1.3.min.js"></script>
+    <script src="./scripts/jquery-ui.min.js"></script>
+	<script src="./scripts/bootstrap.js"></script>
+	<script src="./scripts/angular.min.js"></script>
+	<script src="./scripts/angular-sanitize.min.js"></script>
+	<script src="./scripts/angular-route.min.js"></script>
+	<script src="./scripts/angular-resource.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="./scripts/underscore.min.js"></script>
+
+    <!-- jqx stuff -->
+    <script src="./scripts/simplegrid.js"></script>
+
+	<!-- CONTROLLER SCRIPTS TAGS USED TO BE HERE, THAT CAUSED BAD ARG ERROR-->
+
+	<script src="app.js"></script>
+
+    <script src="./services/RecordService.js"></script>
+    <script src="./services/Globals.js"></script>
+    <script src="./services/ContactService.js"></script>
+    <script src="./services/UserService.js"></script>
+    <script src="./services/PartService.js"></script>
+    <script src="./services/DistrictService.js"></script>
+
+    <!-- directives -->
+    <script src="./directives/pane.js"></script>
+    <script src="./directives/tabs.js"></script>
+    <script src="./directives/autoComplete.js"></script>
+    <script src="./directives/autoModelNo.js"></script>
+    <script src="./directives/autoSerialNo.js"></script>
+    <script src="./directives/autoTagNo.js"></script>
+    <script src="./directives/autoPartNo.js"></script>
+    <script src="./directives/ngPartNo.js"></script>
+    <script src="./directives/ngPartDesc.js"></script>
+    <script src="./directives/myDatePicker.js"></script>
+
+    <!-- filters -->
+    <script src="./filters/PageFilter.js"></script>
+    <script src="./filters/limit.js"></script>
+
+	<!-- misc scripts -->
+	<script src="./scripts/contextmenu.js"></script>
+    <script src="./scripts/mousetrap.js"></script>
+
+
+    <!-- controllers, views, app and services (in that order!) JUST MOVED THESE TO WAY BOTTOM-->
+    <script src="./controllers/TopNavController.js"></script>
+    <script src="./controllers/RecordController.js"></script>
+    <script src="./controllers/DashboardController.js"></script>
+    <script src="./controllers/AdminController.js"></script>
+    <script src="./controllers/UserController.js"></script>
+    <script src="./controllers/PrintController.js"></script>
+    <script src="./controllers/PartsController.js"></script>
+    <script src="./controllers/DistrictDashController.js"></script>
+
+    <!-- modals -->
+    <script src="./controllers/modals/FindContactController.js"></script>
+    <script src="./controllers/modals/FindPartController.js"></script>
+    <script src="./controllers/modals/CompleteController.js"></script>
+    <script src="./controllers/modals/InputValueController.js"></script>
+    <script src="./controllers/modals/SearchController.js"></script>
+    <script src="./controllers/modals/AddNoteController.js"></script>
+    <script src="./controllers/modals/AddPartController.js"></script>
+    <script src="./controllers/modals/NotesController.js"></script>
+
+    <!-- admin partials -->
+    <script src="./controllers/admin/partials/DistrictController.js"></script>
+
+</body>
+</html>

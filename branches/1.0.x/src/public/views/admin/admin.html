@@ -1,0 +1,21 @@
+<br />
+<br />
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+
+			<section class="tab">
+				<ul class="nav nav-pills">
+					<li ng-class="{ active: IsSelected(0) }"><a href ng-click="SelectTab(0)">Users</a></li>
+					<li ng-class="{ active: IsSelected(2) }"><a href ng-click="SelectTab(1)">Warranty Types</a></li>
+					<li ng-class="{ active: IsSelected(3) }"><a href ng-click="SelectTab(2)">Repair Types</a></li>
+					<li ng-class="{ active: IsSelected(4) }"><a href ng-click="SelectTab(3)">Tax Rate</a></li>
+					<li ng-class="{ active: IsSelected(5) }"><a href ng-click="SelectTab(4)">Districts</a></li>
+				</ul>
+			</section>
+
+			<div ng-include="TabView"></div>
+
+		</div>	
+	</div>	
+</div>	

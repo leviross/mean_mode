@@ -1,0 +1,133 @@
+﻿<div ng-controller="FindPartController">
+    <div class="modal fade" id="FindPartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add an Item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <div class="row" style="margin-bottom:10px">
+                                <label class="col-sm-2 control-label text-primary">Item Type</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" ng-model="Part.ItemType">
+                                        <option value="service" selected>Service Part</option>
+                                        <option value="retail">Retail Part</option>
+                                        <option value="labor">Labor</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">&nbsp;</div>
+                            </div>
+                            <div class="well">
+                                <div class="row">
+                                    <label class="col-sm-12 control-label text-primary" style="margin-bottom:10px">Part Details</label>
+                                </div>
+
+                                <div class="row" style="margin-bottom:10px">
+                                    <label class="col-sm-1 control-label">Qty</label>
+                                    <div class="col-sm-1">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.Qty" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Part#</label>
+                                    <div class="col-sm-2">
+                                        <form ng-submit="SearchPartNo()">
+                                            <input type="text" class="form-control" placeholder="" ng-model="Part.PartNo" />
+                                        </form>    
+                                    </div>
+                                    <label class="col-sm-1 control-label">Desc</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.Desc" />
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom:10px">
+                                    <label class="col-sm-1 control-label">Price</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="$" ng-model="Part.Price" />
+                                    </div>
+                                    <label class="col-sm-1 control-label" ng-show="Part.ItemType == 'service'">Cost</label>
+                                    <div class="col-sm-3" ng-show="Part.ItemType == 'service'">
+                                        <input type="text" class="form-control" placeholder="$" ng-model="Part.Cost" />
+                                    </div>
+                                    <label class="col-sm-1 control-label" ng-show="Part.ItemType == 'service'">ShipCost</label>
+                                    <div class="col-sm-3" ng-show="Part.ItemType == 'service'">
+                                        <input type="text" class="form-control" placeholder="$" ng-model="Part.ShippingCost" />
+                                    </div>
+                                    <div class="col-sm-8" ng-show="Part.ItemType != 'service'"></div>
+                                </div>
+
+                                <div class="row" ng-show="Part.ItemType == 'service'">
+                                    <label class="col-sm-1 control-label">Order#</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.OrderNo" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Type</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" ng-model="Part.ServiceType">
+                                            <option value="0" selected>Exchange</option>
+                                            <option value="1">Purchase</option>
+                                            <option value="2">Stock</option>
+                                            <option value="3">Depot</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-sm-1 control-label">Escalation</label>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" style="margin: 0;" class="form-control" ng-model="Part.Esc" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="well" ng-show="Part.ItemType == 'service'">
+                                <div class="row">
+                                    <label class="col-sm-12 control-label text-primary" style="margin-bottom:10px">Receiving Details</label>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-sm-1 control-label">Receiver</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.ReceivingInfo.ReceivedBy" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Date</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.ReceivingInfo.ReceivedOn" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Received</label>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" style="margin: 0;" class="form-control" ng-model="Part.Received" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well" ng-show="Part.ItemType == 'service'">
+                                <div class="row">
+                                    <label class="col-sm-12 control-label text-primary" style="margin-bottom:10px">Shipping Details</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-1 control-label">Sender</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.ShippingInfo.SentBy" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Date</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.ShippingInfo.SentOn" />
+                                    </div>
+                                    <label class="col-sm-1 control-label">Track#</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" placeholder="" ng-model="Part.ShippingInfo.TrackingNo" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="Close()">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="UpdatePart()" ng-show="IsNew == false">Update</button>
+                    <button type="button" class="btn btn-primary" ng-click="AddPart()" ng-show="IsNew == true">Add Part</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

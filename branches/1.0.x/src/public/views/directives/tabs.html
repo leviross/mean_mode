@@ -1,0 +1,10 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li ng-repeat="pane in panes track by $index" style="height: 34px; width: 172px;" ng-class="{active: pane.Selected}">
+			<a href="" ng-click="Select($index, pane)">{{pane.title}}
+			<div class="close" ng-click="CheckIfCloseTab($index, pane, $event)" ng-show="pane.CloseButton"><span>&times;</span></div>
+			</a>
+		</li>
+	</ul>
+	<div class="tab-content ng-transclude"></div>
+</div>

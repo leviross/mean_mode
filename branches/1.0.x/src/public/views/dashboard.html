@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="dashboard">Dashboard</h3>
+        <div class="well col-sm-12">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Your Recent Records</div>
+                    <!--<div class="panel-body">
+                        <p>These are the 10 most recent records that you've created</p>
+                    </div>-->
+                    <!-- Table -->
+
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>RecordNo.</th>
+                                <th>Customer</th>
+                                <th>Issue</th>
+                                <th style="width:20px"></th>
+                            </tr>
+                        </thead>
+                        <tr class="success" style="height:30px" ng-repeat="rec in Recents | limitTo:7">
+                            <td><a href="/#/records" ng-click="GoToRecord(rec._id)">{{rec._id}}</a></td>
+                            <td>{{rec.Contact.NameFirst}} {{rec.Contact.NameLast}}</td>
+                            <td>{{rec.Problem}}</td>
+                            <td><div class="btn btn-default" ng-click="YouCompleteMe(rec._id)"><span class="glyphicon glyphicon-ok"></span></div></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Parts awaiting arrival</div>
+                    <div class="panel-body">
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option value="0" selected>Over 7 days?</option>
+                                <option value="1">Over 30 days</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <!-- Table -->
+
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>RecordNo.</th>
+                                <th>OrderNo.</th>
+                                <th>Qty</th>
+                                <th>PartNo</th>
+                                <th>Days</th>
+                                <th style="width:20px"></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><a href="/#/record/999">999</a></td>
+                            <td>988</td>
+                            <td>1</td>
+                            <td>WDHO899</td>
+                            <td>3</td>
+                            <td><div class="btn btn-primary" ng-click="PartArrived(1001)">Received</div></td>
+                        </tr>
+                        <tr class="danger">
+                            <td><a href="/#/record/1000">1000</a></td>
+                            <td>989</td>
+                            <td>1</td>
+                            <td>MOBO56</td>
+                            <td>22</td>
+                            <td><div class="btn btn-primary" ng-click="PartArrived(1000)">Received</div></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/#/record/1001">1002</a></td>
+                            <td>990</td>
+                            <td>1</td>
+                            <td>TYMIKE76</td>
+                            <td>4</td>
+                            <td><div class="btn btn-primary" ng-click="PartArrived(999)">Received</div></td>
+                        </tr>
+                        <tr>
+                            <td><a href="/#/record/1001">1002</a></td>
+                            <td>987</td>
+                            <td>1</td>
+                            <td>TYMIKE76</td>
+                            <td>4</td>
+                            <td><div class="btn btn-primary" ng-click="PartArrived(999)">Received</div></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h3 class="dashboard">Create New Record</h3>
+                    <form name="SearchForm">
+                        <input class="form-control" type="text" placeholder="Search Name or School District..." ng-model="Name" auto-complete />
+                    </form>    
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
+
+

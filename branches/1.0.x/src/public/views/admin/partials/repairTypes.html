@@ -1,0 +1,22 @@
+<div class="panel panel-default" ng-show="Tab === 3">
+	<h4 class="admin-tab">Repair Types</h4>
+	<div class="add-button col-sm-1 col-sm-offset-11">
+		<button class="btn btn-success">
+			<span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</div>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Id</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="repair in RepairTypes">
+				<td>{{repair.name}}</td>
+				<td>{{repair.id}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

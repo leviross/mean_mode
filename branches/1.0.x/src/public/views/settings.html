@@ -1,0 +1,44 @@
+<br />
+<br />
+<div class="container">
+	<div class="panel panel-default col-md-10 col-md-offset-1">
+		<h3>User Settings Page</h3>
+		<form name="UserSettingsForm" class="validated-form" novalidate>
+			<br />
+			<div class="row">
+				<label class="col-md-1">Name</label>
+				<div class="col-md-5">
+					<input type="text" class="form-control" placeholder="Name" ng-model="UserDetails.Name" readonly />
+				</div>
+				<label class="col-md-2">Old Password</label>
+				<div class="col-md-4">
+					<input name="pass1" type="password" class="form-control" placeholder="Old Password" ng-model="OldPassword" />
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<label class="col-md-1">Email</label>
+				<div class="col-md-5">
+					<input type="email" class="form-control" placeholder="Email" ng-model="UserDetails.Email" readonly />
+				</div>
+				<label class="col-md-2">New Password</label>
+				<div class="col-md-4">
+					<input name="pass1" type="password" class="form-control" placeholder="New Password" ng-model="NewPassword1" ng-minlength="6" />
+				</div>
+			</div>
+			<br />
+			<div class="row">	
+				<label class="col-md-2 col-md-offset-6">Confirm Password</label>
+				<div class="col-md-4">
+					<input name="pass2" type="password" class="form-control" placeholder="Confirm New Password" ng-model="NewPassword2" ng-minlength="6" />
+				</div>
+			</div>	
+			<br />
+			<div class="col-md-offset-10">
+				<button type="button" class="btn btn-default" ng-click="BackToDashboard()">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-disabled="!UserSettingsForm.$valid || UserSettingsForm.pass1.$pristine || UserSettingsForm.pass2.$pristine" ng-click="UpdateUserPassword(UserDetails.Email, OldPassword, NewPassword1, NewPassword2)">Update</button>
+			</div>	
+			<br />
+		</form>	
+	</div>	
+</div>	
