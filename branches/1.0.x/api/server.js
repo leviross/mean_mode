@@ -1,4 +1,5 @@
 var express = require('express');
+require('dotenv').load();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
@@ -7,14 +8,14 @@ app.use(bodyParser.urlencoded({ extended: true }));//true does a serialization/d
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
-
+var uri = process.env.URI;
 
 var port = process.env.PORT || 4000;
 var router = express.Router();
 
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://magicdbadmin:magicdbadminpassword@192.168.50.21:27017/magicdb', function (err){
+mongoose.connect(uri, function (err){
 	if(err) {
 		console.log(err);
 	}
@@ -162,8 +163,8 @@ router.route('/counter/records/:id')
 //Drop record collection
 router.route('/droprecords')
 	.put(recordCtrl.dropRecords);
-//reset contact counter to 4075
-router.route('/counter/contacts/:id')
+//reset contact counter to 0
+router.route('/counter/contacts')
 	.put(contactCtrl.initCounter);			
 //login	
 router.route('/login')

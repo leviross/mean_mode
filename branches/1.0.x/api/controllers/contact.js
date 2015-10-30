@@ -84,7 +84,7 @@ exports.initCounter = function (req, res) {
 		if(doc == null) {
 			var c = new Counter();
 			c._id = "Contacts";
-			c.seq = 4075; // TODO: find out which num to initialize to...
+			c.seq = 0; // TODO: find out which num to initialize to...
 			c.save(function (error, newDoc) {
 				console.log("New counter doc saved!!!", newDoc);
 			});

@@ -6,43 +6,43 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when("/dashboard", {
         templateUrl: "views/dashboard.html",
-        controller: 'DashboardController'
-        //resolve: {Auth: NonAdmin}
+        controller: 'DashboardController',
+        resolve: {Auth: NonAdmin}
     }).when("/records/:id", {
         templateUrl: "views/record.html",
-        controller: 'RecordController'
-        //resolve: {Auth: NonAdmin}
+        controller: 'RecordController',
+        resolve: {Auth: NonAdmin}
     }).when('/records', {
         templateUrl: 'views/record.html',
-        controller: 'RecordController'
-        //resolve: {Auth: NonAdmin}
+        controller: 'RecordController',
+        resolve: {Auth: NonAdmin}
     }).when('/parts', {
         templateUrl: 'views/parts.html',
-        controller: 'PartsController'
-        //resolve: {Auth: NonAdmin}
+        controller: 'PartsController',
+        resolve: {Auth: NonAdmin}
     }).when('/admin', {
         templateUrl: 'views/admin/admin.html',
-        controller: 'AdminController as Admin'
-        //resolve: {Auth: Admin}
+        controller: 'AdminController as Admin',
+        resolve: {Auth: Admin}
     }).when('/admin/:type', {
         templateUrl: 'views/admin/admin.html',
-        controller: 'AdminController as Admin'
-        //resolve: {Auth: Admin}
+        controller: 'AdminController as Admin',
+        resolve: {Auth: Admin}
     }).when('/print/Record', {
-        templateUrl: 'views/print.html'
-        // controller: 'PrintController'
+        templateUrl: 'views/print.html',
+        controller: 'PrintController'
     }).when('/settings', {
         templateUrl: 'views/settings.html',
-        controller: 'UserController'
-        //resolve: {Auth: NonAdmin}
+        controller: 'UserController',
+        resolve: {Auth: NonAdmin}
     }).when('/district-dashboard', {
         templateUrl: 'views/district-dashboard.html',
-        controller: 'DistrictDashController'
-        //resolve: {Auth: District}
+        controller: 'DistrictDashController',
+        resolve: {Auth: District}
     }).otherwise({
       redirectTo: '/dashboard/',
-      controller: 'DashboardController'
-      //resolve: {Auth: NonAdmin}
+      controller: 'DashboardController',
+      resolve: {Auth: NonAdmin}
   });
     //TODO: MAYBE PULL ALL THE HTTP CALLS TO SESSOIN OUT, AND SEE IF YOU CAN DRY UP CODE AND USE
     //THE USERSERVICE METHOD!! 

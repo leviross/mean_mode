@@ -46,7 +46,7 @@ router.post('/createsession', function (req, res) {
 	   
 	    console.log(req.isAuthenticated());
 	    if (err) { console.log("Some Error serializing the user in session:",err); }
-	    console.log(req);
+	    //console.log(req);
 	    //res.status("Success").send(user);
 	    res.json(user);
 	});
